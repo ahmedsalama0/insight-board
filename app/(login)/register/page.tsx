@@ -187,10 +187,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
               label="I want to receive updates via email."
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -222,11 +222,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             </Button>
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
-              <Link
-                href="/login"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
+              <Link href="/login" variant="body2" sx={{ alignSelf: 'center' }}>
                 Sign in
               </Link>
             </Typography>
