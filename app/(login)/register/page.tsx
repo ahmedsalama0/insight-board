@@ -22,6 +22,10 @@ import {
   SitemarkIcon,
 } from '@/app/shared/shared-theme/components/CustomIcons';
 
+// !!!!!!!!!!!!!!!!!
+//React Hook Form...
+// !!!!!!!!!!!!!!!!!
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -110,6 +114,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (nameError || emailError || passwordError) {
       event.preventDefault();
       return;
