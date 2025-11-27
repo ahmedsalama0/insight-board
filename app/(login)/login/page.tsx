@@ -22,6 +22,9 @@ import {
   FacebookIcon,
   SitemarkIcon,
 } from '@/app/shared/shared-theme/components/CustomIcons';
+import { FormInputText } from '../components/FormInputText.compoenent';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { LoginFormType } from '../models/types.model';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -66,10 +69,10 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
+  const { register, handleSubmit, control } = useForm<LoginFormType>();
+
+  const onSubmit: SubmitHandler<LoginFormType> = (data) => console.log(data);
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -78,45 +81,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-
-    let isValid = true;
-
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    return isValid;
   };
 
   return (
@@ -135,74 +99,46 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           >
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              gap: 2,
-            }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                error={emailError}
-                helperText={emailErrorMessage}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                gap: 2,
+              }}
+            >
+              <FormInputText
+                control={control}
                 id="email"
-                type="email"
                 name="email"
                 placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? 'error' : 'primary'}
+                label="Email"
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
+
+              <FormInputText
+                control={control}
+                id="password"
                 name="password"
                 placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? 'error' : 'primary'}
+                label="Password"
               />
-            </FormControl>
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-            <ForgotPassword open={open} handleClose={handleClose} />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              Sign in
-            </Button>
-            <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: 'center' }}
-            >
-              Forgot your password?
-            </Link>
-          </Box>
+
+              <ForgotPassword open={open} handleClose={handleClose} />
+              <Button type="submit" fullWidth variant="contained">
+                Sign in
+              </Button>
+              <Link
+                component="button"
+                type="button"
+                onClick={handleClickOpen}
+                variant="body2"
+                sx={{ alignSelf: 'center' }}
+              >
+                Forgot your password?
+              </Link>
+            </Box>
+          </form>
           <Divider>or</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Button

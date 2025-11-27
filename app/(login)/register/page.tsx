@@ -16,15 +16,18 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '@/app/shared/shared-theme/AppTheme';
 import ColorModeSelect from '@/app/shared/shared-theme/ColorModeSelect';
+import type { LoginFormType } from '@/app/(login)/models/types.model';
 import {
   GoogleIcon,
   FacebookIcon,
   SitemarkIcon,
 } from '@/app/shared/shared-theme/components/CustomIcons';
 
-// !!!!!!!!!!!!!!!!!
-//React Hook Form...
-// !!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!
+//  React Hook Form.
+// !!!!!!!!!!!!!!!!!!
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { FormInputText } from '../components/FormInputText.compoenent';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -69,64 +72,9 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const { register, handleSubmit, control } = useForm<LoginFormType>();
 
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-    const name = document.getElementById('name') as HTMLInputElement;
-
-    let isValid = true;
-
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    if (!name.value || name.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage('Name is required.');
-      isValid = false;
-    } else {
-      setNameError(false);
-      setNameErrorMessage('');
-    }
-
-    return isValid;
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const onSubmit: SubmitHandler<LoginFormType> = (data) => console.log(data);
 
   return (
     <AppTheme {...props}>
@@ -142,68 +90,34 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
           >
             Sign up
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
-              <TextField
-                autoComplete="name"
-                name="name"
-                required
-                fullWidth
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormInputText
+                control={control}
                 id="name"
-                placeholder="Jon Snow"
-                error={nameError}
-                helperText={nameErrorMessage}
-                color={nameError ? 'error' : 'primary'}
+                name="name"
+                placeholder="John Deo"
+                label="Full name"
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                required
-                fullWidth
+              <FormInputText
+                control={control}
                 id="email"
-                placeholder="your@email.com"
                 name="email"
-                autoComplete="email"
-                variant="outlined"
-                error={emailError}
-                helperText={emailErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                placeholder="your@email.com"
+                label="Email"
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                placeholder="••••••"
-                type="password"
+              <FormInputText
+                control={control}
                 id="password"
-                autoComplete="new-password"
-                variant="outlined"
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                name="password"
+                label="password"
+                placeholder="••••••"
               />
-            </FormControl>
-            {/* <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive updates via email."
-            /> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              Sign up
-            </Button>
+              <Button type="submit" fullWidth variant="contained">
+                Sign up
+              </Button>
+            </form>
           </Box>
           <Divider>
             <Typography sx={{ color: 'text.secondary' }}>or</Typography>
