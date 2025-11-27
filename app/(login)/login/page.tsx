@@ -112,6 +112,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 control={control}
                 id="email"
                 name="email"
+                isEmail={true}
                 placeholder="your@email.com"
                 label="Email"
               />

@@ -8,6 +8,7 @@ export const FormInputText = ({
   id,
   label,
   placeholder,
+  isEmail,
 }: IFormInputTexProps) => {
   return (
     <FormControl>
@@ -15,10 +16,15 @@ export const FormInputText = ({
       <Controller
         name={name}
         control={control}
-        rules={{ required: true }}
+        rules={{
+          required: true,
+          pattern: isEmail
+            ? /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+            : /[a-zA-Z0-9]/,
+        }}
         render={({
           field: { onChange, value },
-          fieldState: { error },
+          fieldState: { error, invalid },
           formState,
         }) => {
           return (
@@ -26,11 +32,17 @@ export const FormInputText = ({
               autoComplete={name}
               id={id}
               fullWidth
-              value={value}
-              onChange={onChange}
+              //value={value}
+              onChange={() => {
+                onChange();
+                console.log(error);
+                console.log(invalid);
+                console.log(formState);
+              }}
               placeholder={placeholder}
               error={!!error}
               color={!!error ? 'error' : 'primary'}
+              //helperText="dddddddd"
               helperText={error ? error.message : null}
             />
           );

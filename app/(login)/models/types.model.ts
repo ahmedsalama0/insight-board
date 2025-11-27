@@ -12,5 +12,6 @@ export interface IFormInputTexProps {
   id: string;
   label: string;
   placeholder?: string;
+  isEmail?: boolean;
   control: any; //Control<LoginFormType, any, LoginFormType>;
 }

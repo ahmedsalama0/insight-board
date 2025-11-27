@@ -72,7 +72,9 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
-  const { register, handleSubmit, control } = useForm<LoginFormType>();
+  const { register, handleSubmit, control } = useForm<LoginFormType>({
+    mode: 'onChange',
+  });
 
   const onSubmit: SubmitHandler<LoginFormType> = (data) => console.log(data);
 
@@ -91,8 +93,8 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             Sign up
           </Typography>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <FormInputText
                 control={control}
                 id="name"
@@ -102,6 +104,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               />
               <FormInputText
                 control={control}
+                isEmail={true}
                 id="email"
                 name="email"
                 placeholder="your@email.com"
@@ -117,8 +120,8 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               <Button type="submit" fullWidth variant="contained">
                 Sign up
               </Button>
-            </form>
-          </Box>
+            </Box>
+          </form>
           <Divider>
             <Typography sx={{ color: 'text.secondary' }}>or</Typography>
           </Divider>
