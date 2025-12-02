@@ -1,5 +1,5 @@
 'use client';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 import {
   Box,
   Card,
@@ -13,30 +13,46 @@ import { ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import TaskCard from '../ui/TaskCard';
+import ColumnCard from '../ui/ColumnCard';
+import { Task } from './models/types.model';
 
 export default function Page() {
-  const tasks = [
+  const tasksArr: Task[] = [
     {
       id: 1,
       title: 'Todo',
       description: 'Plants are essential for all life.',
+      priority: 'low',
+      status: 'todo',
+      createdAt: Date.now.toString(),
+      updatedAt: Date.now.toString(),
     },
     {
       id: 2,
       title: 'In-progress',
       description: 'Animals are a part of nature.',
+      priority: 'medium',
+      status: 'in-progress',
+      createdAt: Date.now.toString(),
+      updatedAt: Date.now.toString(),
     },
     {
       id: 3,
       title: 'Done',
       description: 'Humans depend on plants and animals for survival.',
+      priority: 'high',
+      status: 'done',
+      createdAt: Date.now.toString(),
+      updatedAt: Date.now.toString(),
     },
   ];
 
+  const columnTitles = ['todo', 'in-progress', 'done'];
+  const [tasks, setTasks] = React.useState<Task[]>(tasksArr);
+
   return (
     <Container className="">
-      <CssBaseline />
-      <DndContext>
+      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Box
           sx={{
             marginTop: '10%',
@@ -47,13 +63,23 @@ export default function Page() {
             gap: 3,
           }}
         >
-          <SortableContext items={[1, 2, 3]}>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </SortableContext>
+          {columnTitles.map((title) => (
+            <ColumnCard
+              tasks={tasks.filter((task) => task.status === title)}
+              title={title}
+              key={title}
+            />
+          ))}
         </Box>
       </DndContext>
     </Container>
   );
+
+  function onDragStart(event: DragStartEvent) {
+    console.log(event);
+  }
+
+  function onDragEnd(event: DragEndEvent) {
+    console.log(event);
+  }
 }
