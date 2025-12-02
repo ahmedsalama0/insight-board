@@ -10,13 +10,12 @@ import {
 } from '@mui/material';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
-import React from 'react';
+import React, { useState } from 'react';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
+import TaskCard from '../ui/TaskCard';
 
 export default function Page() {
-  const [selectedCard, setSelectedCard] = React.useState(0);
-
-  const cards = [
+  const tasks = [
     {
       id: 1,
       title: 'Todo',
@@ -40,39 +39,19 @@ export default function Page() {
       <DndContext>
         <Box
           sx={{
+            marginTop: '10%',
             width: '100%',
             display: 'grid',
             gridTemplateColumns:
               'repeat(auto-fill, minmax(min(200px, 100%), 1fr))',
-            gap: 2,
+            gap: 3,
           }}
         >
-          {cards.map((card, index) => (
-            <Card key={card.id}>
-              <CardActionArea
-                onClick={() => setSelectedCard(index)}
-                data-active={selectedCard === index ? '' : undefined}
-                sx={{
-                  height: '100%',
-                  '&[data-active]': {
-                    backgroundColor: 'action.selected',
-                    '&:hover': {
-                      backgroundColor: 'action.selectedHover',
-                    },
-                  },
-                }}
-              >
-                <CardContent sx={{ height: '100%' }}>
-                  <Typography variant="h5" component="div">
-                    {card.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {card.description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
+          <SortableContext items={[1, 2, 3]}>
+            {tasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </SortableContext>
         </Box>
       </DndContext>
     </Container>
