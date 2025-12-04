@@ -13,11 +13,8 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
-import { createPortal } from 'react-dom';
 import { Column, Id, Status, Task } from './models/types.model';
-import TaskCard from '@/app/ui/components/TaskCard';
 import ColumnContainer from '@/app/ui/components/ColumnContainer';
-import { Grid } from '@mui/material';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>([]); //operates on addition deletion of columns.
@@ -62,22 +59,22 @@ export default function Page() {
         onDragOver={onDragOver}
       >
         <div className="m-auto flex gap-4">
-          <SortableContext items={columnsId}>
-            <div className="flex gap-4">
-              {columns.map((col) => (
-                <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  updateColumnTitle={updateColumnTitle}
-                  deleteColumn={deleteColumn}
-                  createTask={createTask}
-                  updateTask={updateTask}
-                  deleteTask={deleteTask}
-                  tasks={tasks.filter((task) => task.columnId === col.id)}
-                />
-              ))}
-            </div>
-          </SortableContext>
+          {/* { <SortableContext items={columnsId}>} */}
+          <div className="flex gap-4">
+            {columns.map((col) => (
+              <ColumnContainer
+                key={col.id}
+                column={col}
+                updateColumnTitle={updateColumnTitle}
+                deleteColumn={deleteColumn}
+                createTask={createTask}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+                tasks={tasks.filter((task) => task.columnId === col.id)}
+              />
+            ))}
+          </div>
+          {/* {   </SortableContext>} */}
           <button
             onClick={() => {
               createNewColumn();
@@ -138,7 +135,7 @@ export default function Page() {
       id: generateId(),
       columnId,
       content: `Task ${tasks.length + 1}`,
-      status: 'todo',
+      status: returnColumnStatus(+columnId),
     };
 
     setTasks([...tasks, newTask]);
