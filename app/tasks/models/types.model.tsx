@@ -10,7 +10,9 @@ export type Task = {
   columnId: Id;
   content: string;
   // priority: 'low' | 'medium' | 'high';
-  status: 'todo' | 'in-progress' | 'done';
+  status: Status;
   // createdAt: string;
   // updatedAt: string;
 };
+
+export type Status = 'todo' | 'in-progress' | 'done';

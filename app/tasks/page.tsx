@@ -14,7 +14,7 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
-import { Column, Id, Task } from './models/types.model';
+import { Column, Id, Status, Task } from './models/types.model';
 import TaskCard from '@/app/ui/components/TaskCard';
 import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import { Grid } from '@mui/material';
@@ -104,7 +104,7 @@ export default function Page() {
           </button>
         </div>
 
-        {createPortal(
+        {/* {createPortal(
           <DragOverlay>
             {activeColumn && (
               <ColumnContainer
@@ -128,7 +128,7 @@ export default function Page() {
             )}
           </DragOverlay>,
           window.document.body
-        )}
+        )} */}
       </DndContext>
     </div>
   );
@@ -259,8 +259,14 @@ export default function Page() {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         tasks[activeIndex].columnId = overId;
-        //}
 
+        const overColumnIndex = columns.findIndex((col) => col.id === overId);
+
+        tasks[activeIndex].status = returnColumnStatus(overColumnIndex);
+        console.log('BREAKPOINT:');
+        console.log(overColumnIndex);
+        console.log(tasks[activeIndex].columnId);
+        console.log(returnColumnStatus(overColumnIndex));
         return arrayMove(tasks, activeIndex, activeIndex); //triggering a re-render of tasks because we're returning a new array
       });
     }
@@ -269,6 +275,17 @@ export default function Page() {
 function generateId() {
   // Generates a random num between 0 => 10000
   return Math.floor(Math.random() * 10001);
+}
+
+function returnColumnStatus(columnIndex: number): Status {
+  switch (columnIndex) {
+    case 1:
+      return 'in-progress';
+    case 2:
+      return 'done';
+    default:
+      return 'todo';
+  }
 }
 
 //Done
