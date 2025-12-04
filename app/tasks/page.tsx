@@ -15,12 +15,14 @@ import {
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Column, Id, Status, Task } from './models/types.model';
 import ColumnContainer from '@/app/ui/components/ColumnContainer';
+import FormDialog from '../ui/components/FormDialog';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>([]); //operates on addition deletion of columns.
   // Column | null //in case we are dragging a col or we don't drag anything
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [dialogOpened, setDialogOpened] = useState<boolean>(false);
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -35,6 +37,8 @@ export default function Page() {
       },
     })
   );
+
+  if (dialogOpened) return <FormDialog />;
 
   return (
     <div
@@ -131,6 +135,8 @@ export default function Page() {
   );
 
   function createTask(columnId: Id): void {
+    setDialogOpened(true);
+    console.log('Form opened!!!');
     const newTask: Task = {
       id: generateId(),
       columnId,
