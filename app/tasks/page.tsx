@@ -19,7 +19,7 @@ import TaskCard from '@/app/ui/components/TaskCard';
 import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import { Grid } from '@mui/material';
 
-function KanbanBoard() {
+export default function Page() {
   const [columns, setColumns] = useState<Column[]>([]); //operates on addition deletion of columns.
   // Column | null //in case we are dragging a col or we don't drag anything
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
@@ -75,7 +75,7 @@ function KanbanBoard() {
           Add Column
         </button>
 
-        {createPortal(
+        {/* {createPortal(
           <DragOverlay>
             {activeColumn && (
               <ColumnContainer
@@ -99,7 +99,7 @@ function KanbanBoard() {
             )}
           </DragOverlay>,
           document.body
-        )}
+        )} */}
       </DndContext>
     </div>
   );
@@ -240,7 +240,5 @@ function generateId() {
   // Generates a random num between 0 => 10000
   return Math.floor(Math.random() * 10001);
 }
-
-export default KanbanBoard;
 
 //Done

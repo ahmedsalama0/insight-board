@@ -130,10 +130,9 @@ function ColumnContainer({
         </SortableContext>
       </div>
       {/* Column Footer */}
-      <div className="">
+      <div className="" style={{ width: '50px' }}>
         <button
-          className="
-        "
+          style={{ height: '20px', stroke: '#000' }}
           onClick={() => {
             createTask(column.id);
           }}

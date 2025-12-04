@@ -74,7 +74,7 @@ function TaskCard({
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{ ...style }}
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
@@ -95,6 +95,7 @@ function TaskCard({
       </p>
       {mouseIsOver && (
         <button
+          style={{}}
           onClick={() => {
             deleteTask(task.id);
           }}
