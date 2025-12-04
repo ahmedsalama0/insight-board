@@ -40,10 +40,7 @@ function KanbanBoard() {
   );
 
   return (
-    <div
-      style={{ display: 'flex', gap: '20px', backgroundColor: '#999' }}
-      className="border border-2 h-full"
-    >
+    <div style={{ display: 'flex', gap: '20px', backgroundColor: '#999' }}>
       {/* we added the sensor to activate the delete button
       since it is not working as the dndContext can't differentiate between delete click and drag click
       */}
