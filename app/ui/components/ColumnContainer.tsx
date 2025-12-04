@@ -59,6 +59,16 @@ function ColumnContainer({
         ref={setNodeRef}
         style={style}
         className="
+         bg-column-700
+    w-[350px]
+    h-[500px]
+    max-h-[500px]
+    rounded-md
+    flex
+    flex-col
+    opacity-40
+    border-2
+    border-rose-500
   "
       ></div>
     );
@@ -68,7 +78,13 @@ function ColumnContainer({
       ref={setNodeRef}
       style={{ ...style, padding: '10px', border: '1px solid #000' }}
       className="
-
+        bg-column-700
+    w-[350px]
+    h-[500px]
+    max-h-[500px]
+    rounded-md
+    flex
+    flex-col
   "
     >
       {/* Column title */}
@@ -79,14 +95,37 @@ function ColumnContainer({
           setEditMode(true);
         }}
         className="
+           bg-main-700
+      text-md
+      h[60px]
+      cursor-grab
+      rounded-md
+      rounded-b-none
+      p-3
+      font-bold
+      border-column-700
+      border-4
+      flex
+      items-center
+      justify-between
       "
       >
         <div
           className="
+             flex gap-2
+
    "
         >
           <div
             className="
+                    flex
+        justify-center
+        items-center
+        bg-column-700
+        px-2
+        py-1
+        text-sm
+        rounded-full
         "
           >
             0
@@ -94,7 +133,8 @@ function ColumnContainer({
           {!editMode && column.title}
           {editMode && (
             <input
-              className=""
+              className="
+            bg-black focus:border-rose-500 border rounded outline-none px-2"
               value={column.title}
               onChange={(e) => updateColumnTitle(column.id, e.target.value)}
               autoFocus
@@ -111,13 +151,23 @@ function ColumnContainer({
             deleteColumn(column.id);
           }}
           className="
+                    stroke-gray-500
+          hover:stroke-white
+          hover:bg-column-700
+          rounded
+          px-1
+          py-2
         "
         >
           <TrashIcon />
         </button>
       </div>
       {/* Column Task Container */}
-      <div className="">
+      <div
+        className="
+        flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto
+      "
+      >
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <TaskCard
@@ -130,9 +180,15 @@ function ColumnContainer({
         </SortableContext>
       </div>
       {/* Column Footer */}
-      <div className="" style={{ width: '50px' }}>
+      <div
+        className="
+     
+      "
+      >
         <button
-          style={{ height: '20px', stroke: '#000' }}
+          className="
+           stroke-white flex gap-1.5 
+      bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
           onClick={() => {
             createTask(column.id);
           }}

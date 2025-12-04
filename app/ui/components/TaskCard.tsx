@@ -44,7 +44,16 @@ function TaskCard({
     setMouseIsOver(false); //in edit mode we're not gonna show delete icon
   };
 
-  if (isDragging) return <div ref={setNodeRef} style={style} className="" />;
+  if (isDragging)
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className="opacity-30 bg-main-700 p-2.5 h-[100px]
+      min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500
+      cursor-grab relative"
+      />
+    );
 
   if (editMode)
     return (
@@ -54,10 +63,16 @@ function TaskCard({
         {...attributes}
         {...listeners}
         className="
+          bg-main-700 p-2.5 h-[100px]
+      min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset
+      hover:ring-rose-500
+      cursor-grab relative
   "
       >
         <textarea
           className="
+       h-[90%]
+       w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
        "
           value={task.content}
           autoFocus
@@ -79,6 +94,10 @@ function TaskCard({
       {...listeners}
       onClick={toggleEditMode}
       className="
+        bg-main-700 p-2.5 h-[100px]
+      min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset
+      hover:ring-rose-500
+      cursor-grab relative task
   "
       onMouseEnter={() => {
         setMouseIsOver(true);
@@ -89,17 +108,22 @@ function TaskCard({
     >
       <p
         className="
+          my-auto h-[90%] w-full overflow-y-auto
+      overflow-x-hidden whitespace-pre-wrap
       "
       >
         {task.content}
       </p>
+      <p>{task.status}</p>
       {mouseIsOver && (
         <button
           style={{}}
           onClick={() => {
             deleteTask(task.id);
           }}
-          className=""
+          className="
+                stroke-white absolute right-4 top-1/2 -translate-y-1/2 
+      bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
         >
           <TrashIcon />
         </button>

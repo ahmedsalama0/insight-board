@@ -40,7 +40,18 @@ export default function Page() {
   );
 
   return (
-    <div style={{ display: 'flex', gap: '20px', backgroundColor: '#999' }}>
+    <div
+      className="
+    m-auto
+    flex
+    min-h-screen
+    w-full
+    items-center
+    overflow-x-auto
+    overflow-y-hidden
+    px-[40px]
+    "
+    >
       {/* we added the sensor to activate the delete button
       since it is not working as the dndContext can't differentiate between delete click and drag click
       */}
@@ -50,32 +61,50 @@ export default function Page() {
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <SortableContext items={columnsId}>
-          {columns.map((col) => (
-            <ColumnContainer
-              key={col.id}
-              column={col}
-              updateColumnTitle={updateColumnTitle}
-              deleteColumn={deleteColumn}
-              createTask={createTask}
-              updateTask={updateTask}
-              deleteTask={deleteTask}
-              tasks={tasks.filter((task) => task.columnId === col.id)}
-            />
-          ))}
-        </SortableContext>
-        <button
-          onClick={() => {
-            createNewColumn();
-          }}
-          className="
+        <div className="m-auto flex gap-4">
+          <SortableContext items={columnsId}>
+            <div className="flex gap-4">
+              {columns.map((col) => (
+                <ColumnContainer
+                  key={col.id}
+                  column={col}
+                  updateColumnTitle={updateColumnTitle}
+                  deleteColumn={deleteColumn}
+                  createTask={createTask}
+                  updateTask={updateTask}
+                  deleteTask={deleteTask}
+                  tasks={tasks.filter((task) => task.columnId === col.id)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+          <button
+            onClick={() => {
+              createNewColumn();
+            }}
+            className="
+             h-[60px]
+      w-[350px]
+      min-w-[350px]
+      cursor-pointer
+      rounded-lg
+      bg-main-700
+      border-2
+      border-column-700
+      p-4
+      ring-rose-500
+      hover:ring-2
+      flex
+      gap-2
+       stroke-gray-600
             "
-        >
-          <PlusIcon />
-          Add Column
-        </button>
+          >
+            <PlusIcon />
+            Add Column
+          </button>
+        </div>
 
-        {/* {createPortal(
+        {createPortal(
           <DragOverlay>
             {activeColumn && (
               <ColumnContainer
@@ -98,8 +127,8 @@ export default function Page() {
               />
             )}
           </DragOverlay>,
-          document.body
-        )} */}
+          window.document.body
+        )}
       </DndContext>
     </div>
   );
@@ -109,6 +138,7 @@ export default function Page() {
       id: generateId(),
       columnId,
       content: `Task ${tasks.length + 1}`,
+      status: 'todo',
     };
 
     setTasks([...tasks, newTask]);
