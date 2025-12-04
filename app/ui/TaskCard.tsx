@@ -11,19 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import FolderIcon from '@mui/icons-material/Folder';
 
-function generate(element: React.ReactElement<unknown>) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
-
-const Demo = styled('div')(({ theme }) => ({
-  backgroundColor: (theme.vars || theme).palette.background.paper,
-}));
-
 function TaskCard({ task }: { task: Task }) {
+  const [mouseIsOver, setMouseIsOver] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
 
   const {
@@ -48,15 +37,49 @@ function TaskCard({ task }: { task: Task }) {
   };
 
   return (
-    <ListItem ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {/* <ListItemIcon>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      onMouseEnter={() => {
+        setMouseIsOver(true);
+      }}
+      onMouseLeave={() => {
+        setMouseIsOver(false);
+      }}
+    >
+      <Card
+        sx={{
+          marginBottom: '10%',
+          backgroundColor: '#bbb',
+          border: '3px solid pink',
+        }}
+      >
+        <CardActionArea
+          sx={{
+            height: '80%',
+          }}
+        >
+          <CardContent sx={{ height: '100%' }}>
+            <Typography variant="h5" component="div">
+              {task.title}
+            </Typography>
+            <ListItem>
+              {/* <ListItemIcon>
         <FolderIcon />
-      </ListItemIcon> */}
-      <ListItemText
-        primary={task.description}
-        secondary={secondary ? 'Secondary text' : null}
-      />
-    </ListItem>
+        </ListItemIcon> */}
+              <ListItemText
+                primary={task.description}
+                secondary={secondary ? 'Secondary text' : null}
+              />
+            </ListItem>
+            <p>{task.status}</p>
+            <p>{task.columnId}</p>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </div>
   );
 }
 
