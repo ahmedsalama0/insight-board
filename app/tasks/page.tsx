@@ -155,8 +155,9 @@ export default function Page() {
   }
 
   function createNewColumn() {
+    const columnsLength = columnsId.length;
     const columnToAdd: Column = {
-      id: generateId(),
+      id: columnsLength < 3 ? columnsLength : generateId(),
       title: `Column ${columns.length + 1}`,
     };
 
@@ -276,12 +277,14 @@ function generateId() {
 
 function returnColumnStatus(columnIndex: number): Status {
   switch (columnIndex) {
+    case 0:
+      return 'todo';
     case 1:
       return 'in-progress';
-    case 2:
-      return 'done';
+    //case 2:
+    //  return 'done';
     default:
-      return 'todo';
+      return 'done';
   }
 }
 
