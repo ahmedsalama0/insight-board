@@ -8,9 +8,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 export default function FormInputSelect({
   title,
   options,
+  name,
 }: {
   title: string;
   options: string[];
+  name: string;
 }) {
   const [age, setAge] = React.useState('');
 
@@ -19,12 +21,14 @@ export default function FormInputSelect({
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 120, marginBottom: '10px' }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{title}</InputLabel>
         <Select
+          required
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          name={name}
           value={age}
           label="Age"
           onChange={handleChange}

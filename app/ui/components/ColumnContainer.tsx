@@ -11,16 +11,16 @@ import TaskCard from './TaskCard';
 // }
 function ColumnContainer({
   column,
-  deleteColumn,
-  updateColumnTitle,
+  //deleteColumn,
+  //updateColumnTitle,
   createTask,
   updateTask,
   deleteTask,
   tasks,
 }: {
   column: Column;
-  deleteColumn(id: Id): void; //function declaration
-  updateColumnTitle: (id: Id, title: string) => void;
+  //deleteColumn(id: Id): void; //function declaration
+  //updateColumnTitle: (id: Id, title: string) => void;
   createTask: (columnId: Id) => void; //arrow fn
   updateTask(id: Id, content: string): void;
   deleteTask(id: Id): void;
@@ -92,7 +92,7 @@ function ColumnContainer({
         {...attributes}
         {...listeners}
         onClick={() => {
-          setEditMode(true);
+          //setEditMode(true);
         }}
         className="
            bg-main-700
@@ -131,12 +131,14 @@ function ColumnContainer({
             0
           </div>
           {!editMode && column.title}
-          {editMode && (
+          {/* {editMode && (
             <input
               className="
             bg-black focus:border-rose-500 border rounded outline-none px-2"
               value={column.title}
-              onChange={(e) => updateColumnTitle(column.id, e.target.value)}
+              onChange={(e) => {
+                //updateColumnTitle(column.id, e.target.value)
+              }}
               autoFocus
               onBlur={() => setEditMode(false)}
               onKeyDown={(e) => {
@@ -144,11 +146,11 @@ function ColumnContainer({
                 setEditMode(false);
               }}
             />
-          )}
+          )} */}
         </div>
         <button
           onClick={() => {
-            deleteColumn(column.id);
+            //deleteColumn(column.id);
           }}
           className="
                     stroke-gray-500

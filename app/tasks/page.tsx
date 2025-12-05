@@ -16,13 +16,15 @@ import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Column, Id, Status, Task } from './models/types.model';
 import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import FormDialog from '../ui/components/FormDialog';
+import { BOARD_COLUMNS } from './data/data';
 
 export default function Page() {
-  const [columns, setColumns] = useState<Column[]>([]); //operates on addition deletion of columns.
+  const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
   // Column | null //in case we are dragging a col or we don't drag anything
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [dialogOpened, setDialogOpened] = useState<boolean>(false);
+  const [formValue, setFormValue] = useState<any>(null);
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -38,8 +40,6 @@ export default function Page() {
     })
   );
 
-  if (dialogOpened) return <FormDialog />;
-
   return (
     <div
       className="
@@ -53,6 +53,7 @@ export default function Page() {
     px-[40px]
     "
     >
+      {dialogOpened && <FormDialog setFormValue={setFormValue} />}
       {/* we added the sensor to activate the delete button
       since it is not working as the dndContext can't differentiate between delete click and drag click
       */}
@@ -69,8 +70,8 @@ export default function Page() {
               <ColumnContainer
                 key={col.id}
                 column={col}
-                updateColumnTitle={updateColumnTitle}
-                deleteColumn={deleteColumn}
+                // updateColumnTitle={updateColumnTitle}
+                // deleteColumn={deleteColumn}
                 createTask={createTask}
                 updateTask={updateTask}
                 deleteTask={deleteTask}
@@ -79,61 +80,14 @@ export default function Page() {
             ))}
           </div>
           {/* {   </SortableContext>} */}
-          <button
-            onClick={() => {
-              createNewColumn();
-            }}
-            className="
-             h-[60px]
-      w-[350px]
-      min-w-[350px]
-      cursor-pointer
-      rounded-lg
-      bg-main-700
-      border-2
-      border-column-700
-      p-4
-      ring-rose-500
-      hover:ring-2
-      flex
-      gap-2
-       stroke-gray-600
-            "
-          >
-            <PlusIcon />
-            Add Column
-          </button>
         </div>
-
-        {/* {createPortal(
-          <DragOverlay>
-            {activeColumn && (
-              <ColumnContainer
-                column={activeColumn}
-                updateColumnTitle={updateColumnTitle}
-                deleteColumn={deleteColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
-              />
-            )}
-            {activeTask && (
-              <TaskCard
-                task={activeTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-              />
-            )}
-          </DragOverlay>,
-          window.document.body
-        )} */}
       </DndContext>
     </div>
   );
 
+  function formSubmitHandler() {}
+
+  //should be called after the form data is submitted
   function createTask(columnId: Id): void {
     setDialogOpened(true);
     console.log('Form opened!!!');
@@ -143,7 +97,8 @@ export default function Page() {
       content: `Task ${tasks.length + 1}`,
       status: returnColumnStatus(+columnId),
     };
-
+    console.log('TASK DATA');
+    console.log(formValue);
     setTasks([...tasks, newTask]);
   }
 
@@ -160,31 +115,31 @@ export default function Page() {
     setTasks([...newTasks]);
   }
 
-  function createNewColumn() {
-    const columnsLength = columnsId.length;
-    const columnToAdd: Column = {
-      id: columnsLength < 3 ? columnsLength : generateId(),
-      title: `Column ${columns.length + 1}`,
-    };
+  // function createNewColumn() {
+  //   const columnsLength = columnsId.length;
+  //   const columnToAdd: Column = {
+  //     id: columnsLength < 3 ? columnsLength : generateId(),
+  //     title: `Column ${columns.length + 1}`,
+  //   };
 
-    setColumns([...columns, columnToAdd]);
-  }
+  //   setColumns([...columns, columnToAdd]);
+  // }
 
-  function deleteColumn(id: Id): void {
-    const filteredColumns = columns.filter((col) => col.id !== id);
-    //when we delete a column, we also delete tasks bounded to it.
-    const newTasks = tasks.filter((t) => t.columnId !== id);
-    setColumns(filteredColumns);
-    setTasks(newTasks);
-  }
+  // function deleteColumn(id: Id): void {
+  //   const filteredColumns = columns.filter((col) => col.id !== id);
+  //   //when we delete a column, we also delete tasks bounded to it.
+  //   const newTasks = tasks.filter((t) => t.columnId !== id);
+  //   setColumns(filteredColumns);
+  //   setTasks(newTasks);
+  // }
 
-  function updateColumnTitle(id: Id, title: string) {
-    const newColumns = columns.map((col) => {
-      if (col.id !== id) return col;
-      return { ...col, title };
-    });
-    setColumns(newColumns);
-  }
+  // function updateColumnTitle(id: Id, title: string) {
+  //   const newColumns = columns.map((col) => {
+  //     if (col.id !== id) return col;
+  //     return { ...col, title };
+  //   });
+  //   setColumns(newColumns);
+  // }
 
   function onDragStart(event: DragStartEvent) {
     console.log(`DRAG START ${event}`, event);
