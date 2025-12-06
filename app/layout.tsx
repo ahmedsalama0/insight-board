@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
-
+import ReactQueryProvider from '@/providers/QueryProvider';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 // const geistSans = Geist({
 //   variable: '--font-geist-sans',
 //   subsets: ['latin'],
@@ -29,7 +30,10 @@ export default function RootLayout({
         // style={{ backgroundColor: '#000' }}
         className={``}
       >
-        <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+        <ReactQueryProvider>
+          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ReactQueryProvider>
       </body>
     </html>
   );

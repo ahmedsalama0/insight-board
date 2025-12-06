@@ -9,10 +9,10 @@ export type Task = {
   id: Id;
   columnId: Id;
   content: string;
-  // priority: 'low' | 'medium' | 'high';
+  priority: 'low' | 'medium' | 'high';
   status: Status;
-  // createdAt: string;
-  // updatedAt: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Status = 'todo' | 'in-progress' | 'done';
