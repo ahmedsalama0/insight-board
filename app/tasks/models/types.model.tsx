@@ -7,8 +7,9 @@ export type Column = {
 
 export type Task = {
   id: Id;
+  title: string;
   columnId: Id;
-  content: string;
+  description: string;
   priority: 'low' | 'medium' | 'high';
   status: Status;
   createdAt: string;

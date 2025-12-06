@@ -18,6 +18,7 @@ import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import FormDialog from '../ui/components/FormDialog';
 import { BOARD_COLUMNS } from './data/data';
 import { useQuery } from '@tanstack/react-query';
+import { useTasksData } from '../hooks/useTasksData';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
@@ -26,14 +27,11 @@ export default function Page() {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [dialogOpened, setDialogOpened] = useState<boolean>(false);
   const [formValue, setFormValue] = useState<any>(null);
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState<Task[]>([]);
-
-  const fetchTasks = () => {
-    return axios.get('http://localhost:4000/tasks');
-  };
 
   //pointer sensor, touch sensor, et cetra
   const sensors = useSensors(
@@ -45,15 +43,13 @@ export default function Page() {
     })
   );
 
-  const { isPending, error, data } = useQuery({
-    queryKey: ['Tasks'],
-    queryFn: fetchTasks,
-  });
-  if (isPending) {
+  const { isPending, isLoading, isFetching, isError, error, data, refetch } =
+    useTasksData();
+  if (isPending || isLoading || isFetching) {
     return <h2>Loading</h2>;
   }
 
-  if (error) return <div>Error</div>;
+  if (isError) return <div>{error.message}</div>;
 
   // return (
   //   <ul>
@@ -76,7 +72,15 @@ export default function Page() {
     px-[40px]
     "
     >
-      {dialogOpened && <FormDialog setFormValue={setFormValue} />}
+      <button
+        onClick={() => {
+          console.log('clicked');
+          refetch();
+        }}
+      >
+        Retry
+      </button>
+
       {/* we added the sensor to activate the delete button
       since it is not working as the dndContext can't differentiate between delete click and drag click
       */}
@@ -99,11 +103,9 @@ export default function Page() {
                 updateTask={updateTask}
                 deleteTask={deleteTask}
                 tasks={data?.data.filter((task) => {
-                  console.log(data?.data.length);
-                  console.log(col.id);
-                  console.log(task);
                   return task.columnId === col.id;
                 })}
+                setFormValue={setFormValue}
               />
             ))}
           </div>
@@ -113,20 +115,19 @@ export default function Page() {
     </div>
   );
 
-  function formSubmitHandler() {}
-
   //should be called after the form data is submitted
-  function createTask(columnId: Id): void {
-    setDialogOpened(true);
-    console.log('Form opened!!!');
-    const newTask: Task = {
-      id: generateId(),
-      columnId,
-      content: `Task ${tasks.length + 1}`,
-      status: returnColumnStatus(+columnId),
-    };
-    console.log('TASK DATA');
-    console.log(formValue);
+  function createTask(task: Task): void {
+    // const newTask: Task = {
+    //   id: generateId(),
+    //   columnId,
+    //   description: `Task ${tasks.length + 1}`,
+    //   status: returnColumnStatus(+columnId),
+    //   createdAt: Date.now().toString(),
+    //   updatedAt: '',
+    //   priority: 'high',
+    // };
+    const newTask: Task = task;
+    console.log(newTask);
     setTasks([...tasks, newTask]);
   }
 
@@ -259,12 +260,12 @@ export default function Page() {
     }
   }
 }
-function generateId() {
+export function generateId() {
   // Generates a random num between 0 => 10000
   return Math.floor(Math.random() * 10001);
 }
 
-function returnColumnStatus(columnIndex: number): Status {
+export function returnColumnStatus(columnIndex: number): Status {
   switch (columnIndex) {
     case 0:
       return 'todo';
@@ -274,6 +275,19 @@ function returnColumnStatus(columnIndex: number): Status {
     //  return 'done';
     default:
       return 'done';
+  }
+}
+
+export function returnColumnIndex(columnStatus: Status): number {
+  switch (columnStatus) {
+    case 'todo':
+      return 0;
+    case 'in-progress':
+      return 1;
+    //case 2:
+    //  return 'done';
+    default:
+      return 2;
   }
 }
 

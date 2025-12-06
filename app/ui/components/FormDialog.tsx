@@ -9,12 +9,22 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormInputSelect from './FormInputSelect';
 import { Margin } from '@mui/icons-material';
+import { Id, Task } from '@/app/tasks/models/types.model';
+import {
+  generateId,
+  returnColumnIndex,
+  returnColumnStatus,
+} from '@/app/tasks/page';
 
 //btnTitle, action
 export default function FormDialog({
   setFormValue,
+  createTask,
+  columnId,
 }: {
   setFormValue: React.Dispatch<any>;
+  createTask(task: Task): void;
+  columnId: Id;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -31,9 +41,17 @@ export default function FormDialog({
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
     //const email = formJson.email;
-    console.log(formData);
-    console.log(formJson);
     setFormValue(formJson);
+    createTask({
+      id: generateId(),
+      title: formJson?.title,
+      createdAt: performance.now().toString(),
+      updatedAt: 'null',
+      description: formJson?.description,
+      priority: formJson?.priority,
+      status: returnColumnStatus(+columnId),
+      columnId: columnId,
+    });
     handleClose();
   };
 
@@ -73,11 +91,11 @@ export default function FormDialog({
               variant="standard"
               sx={{ marginBottom: '10px' }}
             />
-            <FormInputSelect
+            {/* <FormInputSelect
               options={['todo', 'in-progress', 'done']}
               title="Status"
               name="status"
-            />
+            /> */}
             <FormInputSelect
               options={['low', 'medium', 'high']}
               title="Priority"

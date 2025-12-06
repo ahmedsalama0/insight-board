@@ -14,10 +14,8 @@ export default function FormInputSelect({
   options: string[];
   name: string;
 }) {
-  const [age, setAge] = React.useState('');
-
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    //setAge(event.target.value as string);
   };
 
   return (
@@ -29,13 +27,12 @@ export default function FormInputSelect({
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           name={name}
-          value={age}
-          label="Age"
+          label={title}
           onChange={handleChange}
         >
           {options.map((option, i) => {
             return (
-              <MenuItem key={i} value={i}>
+              <MenuItem key={i} value={option}>
                 {option}
               </MenuItem>
             );

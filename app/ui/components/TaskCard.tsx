@@ -74,7 +74,7 @@ function TaskCard({
        h-[90%]
        w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
        "
-          value={task.content}
+          value={task.description}
           autoFocus
           placeholder="Task content here"
           onBlur={toggleEditMode}
@@ -115,6 +115,7 @@ function TaskCard({
         {task.description}
       </p>
       <p>{task.status}</p>
+      <p>{task.priority}</p>
       {mouseIsOver && (
         <button
           style={{}}

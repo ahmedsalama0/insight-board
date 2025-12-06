@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useMemo, useState } from 'react';
 import { PlusIcon } from '../icons/PlusIcon';
 import TaskCard from './TaskCard';
+import FormDialog from './FormDialog';
 // interface IProps {
 //   column: Column;
 // }
@@ -17,14 +18,16 @@ function ColumnContainer({
   updateTask,
   deleteTask,
   tasks,
+  setFormValue,
 }: {
   column: Column;
   //deleteColumn(id: Id): void; //function declaration
   //updateColumnTitle: (id: Id, title: string) => void;
-  createTask: (columnId: Id) => void; //arrow fn
+  createTask: (task: Task) => void; //arrow fn
   updateTask(id: Id, content: string): void;
   deleteTask(id: Id): void;
   tasks: Task[];
+  setFormValue: React.Dispatch<any>;
 }) {
   const [editMode, setEditMode] = useState(false);
 
@@ -187,17 +190,25 @@ function ColumnContainer({
      
       "
       >
-        <button
+        {/* <button
           className="
            stroke-white flex gap-1.5 
       bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
           onClick={() => {
-            createTask(column.id);
+            //createTask(column.id);
           }}
         >
-          <PlusIcon />
-          Add Task
-        </button>
+          <FormDialog
+            columnId={column.id}
+            setFormValue={setFormValue}
+            createTask={createTask}
+          />
+        </button> */}
+        <FormDialog
+          columnId={column.id}
+          setFormValue={setFormValue}
+          createTask={createTask}
+        />
       </div>
     </div>
   );
