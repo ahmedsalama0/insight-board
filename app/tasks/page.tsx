@@ -18,7 +18,7 @@ import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import FormDialog from '../ui/components/FormDialog';
 import { BOARD_COLUMNS } from './data/data';
 import { useQuery } from '@tanstack/react-query';
-import { useTasksData } from '../hooks/useTasksData';
+import { useAddTask, useTasksData } from '../hooks/useTasksData';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
@@ -28,6 +28,11 @@ export default function Page() {
   const [dialogOpened, setDialogOpened] = useState<boolean>(false);
   const [formValue, setFormValue] = useState<any>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const {
+    mutate: addTask,
+    isError: addTaskError,
+    isPending: addTaskPending,
+  } = useAddTask();
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -127,8 +132,9 @@ export default function Page() {
     //   priority: 'high',
     // };
     const newTask: Task = task;
+    addTask(newTask);
     console.log(newTask);
-    setTasks([...tasks, newTask]);
+    //setTasks([...tasks, newTask]);
   }
 
   function updateTask(id: Id, content: string) {
