@@ -1,5 +1,5 @@
 'use client';
-
+import axios from 'axios';
 import { useMemo, useState } from 'react';
 import { PlusIcon } from '../ui/icons/PlusIcon';
 import {
@@ -17,6 +17,7 @@ import { Column, Id, Status, Task } from './models/types.model';
 import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import FormDialog from '../ui/components/FormDialog';
 import { BOARD_COLUMNS } from './data/data';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
@@ -30,6 +31,10 @@ export default function Page() {
 
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  const fetchTasks = () => {
+    return axios.get('http://localhost:4000/tasks');
+  };
+
   //pointer sensor, touch sensor, et cetra
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -39,6 +44,24 @@ export default function Page() {
       },
     })
   );
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ['Tasks'],
+    queryFn: fetchTasks,
+  });
+  if (isPending) {
+    return <h2>Loading</h2>;
+  }
+
+  if (error) return <div>Error</div>;
+
+  // return (
+  //   <ul>
+  //     {data.data?.map((todo) => (
+  //       <li key={todo.id}>{todo.title}</li>
+  //     ))}
+  //   </ul>
+  // );
 
   return (
     <div
@@ -75,7 +98,12 @@ export default function Page() {
                 createTask={createTask}
                 updateTask={updateTask}
                 deleteTask={deleteTask}
-                tasks={tasks.filter((task) => task.columnId === col.id)}
+                tasks={data?.data.filter((task) => {
+                  console.log(data?.data.length);
+                  console.log(col.id);
+                  console.log(task);
+                  return task.columnId === col.id;
+                })}
               />
             ))}
           </div>

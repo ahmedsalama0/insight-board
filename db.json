@@ -1,31 +1,10 @@
 {
-  "superheroes": [
+  "tasks": [
     {
       "id": 1,
-      "name": "Ahmed",
-      "alterEgo": "Bruce Wayne"
-    },
-    {
-      "id": 2,
-      "name": "Superman",
-      "alterEgo": "Clark Kent"
-    },
-    {
-      "id": 3,
-      "name": "Wonder Woman",
-      "alterEgo": "Princess Diana"
-    },
-    {
-      "id": 4,
-      "name": "test #5566677",
-      "alterEgo": "&^%$$$$$%^"
-    }
-  ],
-  "task": [
-    {
-      "id": 1,
-      "columnId": 101,
-      "content": "Implement user authentication",
+      "columnId": 1,
+      "title": "User Authentication",
+      "description": "Implement user authentication",
       "priority": "high",
       "status": "in-progress",
       "createdAt": "2025-01-10T09:15:00Z",
@@ -33,8 +12,9 @@
     },
     {
       "id": 2,
-      "columnId": 101,
-      "content": "Design database schema",
+      "columnId": 2,
+      "title": "Database Schema",
+      "description": "Design database schema",
       "priority": "medium",
       "status": "todo",
       "createdAt": "2025-01-09T11:00:00Z",
@@ -42,8 +22,9 @@
     },
     {
       "id": 3,
-      "columnId": 102,
-      "content": "Create API endpoints",
+      "columnId": 0,
+      "title": "API Endpoints",
+      "description": "Create API endpoints",
       "priority": "high",
       "status": "todo",
       "createdAt": "2025-01-11T13:45:00Z",
@@ -51,8 +32,9 @@
     },
     {
       "id": 4,
-      "columnId": 102,
-      "content": "Implement logging middleware",
+      "columnId": 0,
+      "title": "Logging Middleware",
+      "description": "Implement logging middleware",
       "priority": "low",
       "status": "in-progress",
       "createdAt": "2025-01-08T10:20:00Z",
@@ -60,8 +42,9 @@
     },
     {
       "id": 5,
-      "columnId": 103,
-      "content": "Build Angular components",
+      "columnId": 2,
+      "title": "Angular Components",
+      "description": "Build Angular components",
       "priority": "medium",
       "status": "todo",
       "createdAt": "2025-01-13T08:00:00Z",
@@ -69,8 +52,9 @@
     },
     {
       "id": 6,
-      "columnId": 103,
-      "content": "Style frontend pages",
+      "columnId": 1,
+      "title": "Frontend Styling",
+      "description": "Style frontend pages",
       "priority": "low",
       "status": "in-review",
       "createdAt": "2025-01-07T16:30:00Z",
@@ -78,8 +62,9 @@
     },
     {
       "id": 7,
-      "columnId": 104,
-      "content": "Implement payment integration",
+      "columnId": 1,
+      "title": "Payment Integration",
+      "description": "Implement payment integration",
       "priority": "high",
       "status": "in-progress",
       "createdAt": "2025-01-05T14:00:00Z",
@@ -87,8 +72,9 @@
     },
     {
       "id": 8,
-      "columnId": 104,
-      "content": "Write unit tests",
+      "columnId": 1,
+      "title": "Unit Tests",
+      "description": "Write unit tests",
       "priority": "medium",
       "status": "todo",
       "createdAt": "2025-01-14T09:00:00Z",
@@ -96,8 +82,9 @@
     },
     {
       "id": 9,
-      "columnId": 105,
-      "content": "Prepare deployment pipeline",
+      "columnId": 2,
+      "title": "Deployment Pipeline",
+      "description": "Prepare deployment pipeline",
       "priority": "high",
       "status": "todo",
       "createdAt": "2025-01-06T12:30:00Z",
@@ -105,8 +92,9 @@
     },
     {
       "id": 10,
-      "columnId": 105,
-      "content": "Optimize database queries",
+      "columnId": 0,
+      "title": "DB Optimization",
+      "description": "Optimize database queries",
       "priority": "medium",
       "status": "in-review",
       "createdAt": "2025-01-03T15:10:00Z",

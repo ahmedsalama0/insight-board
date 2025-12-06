@@ -112,7 +112,7 @@ function TaskCard({
       overflow-x-hidden whitespace-pre-wrap
       "
       >
-        {task.content}
+        {task.description}
       </p>
       <p>{task.status}</p>
       {mouseIsOver && (
