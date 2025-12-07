@@ -51,6 +51,7 @@ export default function FormDialog({
       priority: formJson?.priority,
       status: returnColumnStatus(+columnId),
       columnId: columnId,
+      taskOrder: generateId(),
     });
     handleClose();
   };

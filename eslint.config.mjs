@@ -5,7 +5,7 @@ import pluginQuery from '@tanstack/eslint-plugin-query';
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  ...pluginQuery.configs['flat/recommended']
+  ...pluginQuery.configs['flat/recommended'],
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

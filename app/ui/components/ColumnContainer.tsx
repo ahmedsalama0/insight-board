@@ -173,15 +173,19 @@ function ColumnContainer({
         flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto
       "
       >
+        <p>{tasks.length}</p>
         <SortableContext items={tasksIds}>
-          {tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              deleteTask={deleteTask}
-              updateTask={updateTask}
-            />
-          ))}
+          {tasks.map((task, _, arr) => {
+            console.log(arr);
+            return (
+              <TaskCard
+                key={task.id}
+                task={task}
+                deleteTask={deleteTask}
+                updateTask={updateTask}
+              />
+            );
+          })}
         </SortableContext>
       </div>
       {/* Column Footer */}

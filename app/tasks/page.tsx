@@ -107,9 +107,12 @@ export default function Page() {
                 createTask={createTask}
                 updateTask={updateTask}
                 deleteTask={deleteTask}
-                tasks={data?.data.filter((task) => {
-                  return task.columnId === col.id;
-                })}
+                tasks={data?.data
+                  .filter((task, i, arr) => {
+                    console.log(task.columnId, ' ', col.id);
+                    return task.columnId === col.id;
+                  })
+                  .sort((a, b) => a.taskOrder - b.taskOrder)}
                 setFormValue={setFormValue}
               />
             ))}
@@ -267,8 +270,8 @@ export default function Page() {
   }
 }
 export function generateId() {
-  // Generates a random num between 0 => 10000
-  return Math.floor(Math.random() * 10001);
+  // Generates a random num between 0 => 100000
+  return Math.floor(Math.random() * 100001);
 }
 
 export function returnColumnStatus(columnIndex: number): Status {

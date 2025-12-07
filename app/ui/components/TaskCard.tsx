@@ -116,6 +116,7 @@ function TaskCard({
       </p>
       <p>{task.status}</p>
       <p>{task.priority}</p>
+      <p>{task.taskOrder}</p>
       {mouseIsOver && (
         <button
           style={{}}

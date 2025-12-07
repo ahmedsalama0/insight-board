@@ -9,6 +9,7 @@ export type Task = {
   id: Id;
   title: string;
   columnId: Id;
+  taskOrder: number;
   description: string;
   priority: 'low' | 'medium' | 'high';
   status: Status;
