@@ -18,7 +18,7 @@ import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import FormDialog from '../ui/components/FormDialog';
 import { BOARD_COLUMNS } from './data/data';
 import { useQuery } from '@tanstack/react-query';
-import { useAddTask, useTasksData } from '../hooks/useTasksData';
+import { useAddTask, useDeleteTask, useTasksData } from '../hooks/useTasksData';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
@@ -47,6 +47,8 @@ export default function Page() {
       },
     })
   );
+
+  const { mutate: mutateDelete } = useDeleteTask();
 
   const { isPending, isLoading, isFetching, isError, error, data, refetch } =
     useTasksData();
@@ -109,7 +111,6 @@ export default function Page() {
                 deleteTask={deleteTask}
                 tasks={data?.data
                   .filter((task, i, arr) => {
-                    console.log(task.columnId, ' ', col.id);
                     return task.columnId === col.id;
                   })
                   .sort((a, b) => a.taskOrder - b.taskOrder)}
@@ -149,8 +150,8 @@ export default function Page() {
   }
 
   function deleteTask(id: Id) {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks([...newTasks]);
+    console.log('delete task block');
+    mutateDelete(id);
   }
 
   // function createNewColumn() {

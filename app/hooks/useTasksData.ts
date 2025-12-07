@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { Task } from '../tasks/models/types.model';
+import { Id, Task } from '../tasks/models/types.model';
 import { error } from 'console';
 
 const BASE_URL = 'http://localhost:4000';
 
+// READ TASKS
 const fetchTasks = () => {
   return axios.get(`${BASE_URL}/tasks`);
 };
@@ -15,8 +16,50 @@ export const useTasksData = () => {
   });
 };
 
+//DELETE TASK
+const deleteTask = function (id: Id) {
+  console.log('axios delete');
+  return axios.delete(`${BASE_URL}/tasks/${id}`);
+};
+
+export const useDeleteTask = () => {
+  console.log('usedeletetask');
+  return useMutation({
+    mutationFn: (taskId: Id) => deleteTask(taskId),
+    onMutate: async (taskId, context) => {
+      console.log(taskId);
+      await context.client.cancelQueries({ queryKey: ['tasks'] });
+      const previousData = context.client.getQueryData(['tasks']);
+
+      // Optimistically update to the new value
+      if (previousData) {
+        console.log(previousData);
+        console.log('BREAKS');
+        context.client.setQueryData(['tasks'], {
+          ...previousData,
+          data: [...previousData?.data.filter((task) => task.id !== taskId)],
+        });
+        console.log('BREAKS2');
+      }
+      console.log('flag2');
+
+      // Return a result with the snapshotted value
+      return { previousData };
+    },
+    // If the mutation fails,
+    // use the result returned from onMutate to roll back
+    onError: (err, newTask, onMutateResult, context) => {
+      context.client.setQueryData(['tasks'], onMutateResult?.previousData);
+    },
+    // Always refetch after error or success:
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      return context.client.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+};
+
+//CREATE TASKS
 const addTask = (task: Task) => {
-  console.log('entered axios post block');
   return axios.post(`${BASE_URL}/tasks`, task);
 };
 
@@ -46,7 +89,6 @@ export const useAddTask = () => {
           data: [...previousData?.data, newTask],
         });
       }
-      console.log('flag2');
 
       // Return a result with the snapshotted value
       return { previousData };

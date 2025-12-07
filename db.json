@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "columnId": 0,
       "title": "User Authentication",
       "description": "Implement user authentication",
@@ -12,29 +12,7 @@
       "updatedAt": "2025-01-12T14:30:00Z"
     },
     {
-      "id": 2,
-      "columnId": 0,
-      "title": "Database Schema",
-      "description": "Design database schema",
-      "priority": "medium",
-      "status": "todo",
-      "taskOrder": 44,
-      "createdAt": "2025-01-09T11:00:00Z",
-      "updatedAt": "2025-01-09T11:00:00Z"
-    },
-    {
-      "id": 3,
-      "columnId": 1,
-      "title": "API Endpoints",
-      "description": "Create API endpoints",
-      "priority": "high",
-      "status": "todo",
-      "taskOrder": 45,
-      "createdAt": "2025-01-11T13:45:00Z",
-      "updatedAt": "2025-01-11T13:45:00Z"
-    },
-    {
-      "id": 4,
+      "id": "4",
       "columnId": 0,
       "title": "Logging Middleware",
       "description": "Implement logging middleware",
@@ -45,18 +23,7 @@
       "updatedAt": "2025-01-12T09:10:00Z"
     },
     {
-      "id": 5,
-      "columnId": 2,
-      "title": "Angular Components",
-      "description": "Build Angular components",
-      "priority": "medium",
-      "status": "todo",
-      "taskOrder": 666,
-      "createdAt": "2025-01-13T08:00:00Z",
-      "updatedAt": "2025-01-13T08:00:00Z"
-    },
-    {
-      "id": 6,
+      "id": "6",
       "columnId": 1,
       "title": "Frontend Styling",
       "description": "Style frontend pages",
@@ -67,7 +34,7 @@
       "updatedAt": "2025-01-12T10:40:00Z"
     },
     {
-      "id": 7,
+      "id": "7",
       "columnId": 0,
       "title": "Payment Integration",
       "description": "Implement payment integration",
@@ -78,7 +45,7 @@
       "updatedAt": "2025-01-10T17:20:00Z"
     },
     {
-      "id": 8,
+      "id": "8",
       "columnId": 2,
       "title": "Unit Tests",
       "description": "Write unit tests",
@@ -89,7 +56,7 @@
       "updatedAt": "2025-01-14T09:00:00Z"
     },
     {
-      "id": 9,
+      "id": "9",
       "columnId": 1,
       "title": "Deployment Pipeline",
       "description": "Prepare deployment pipeline",
@@ -100,7 +67,7 @@
       "updatedAt": "2025-01-06T12:30:00Z"
     },
     {
-      "id": 10,
+      "id": "10",
       "columnId": 0,
       "title": "DB Optimization",
       "description": "Optimize database queries",

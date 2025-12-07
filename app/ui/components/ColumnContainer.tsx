@@ -176,7 +176,6 @@ function ColumnContainer({
         <p>{tasks.length}</p>
         <SortableContext items={tasksIds}>
           {tasks.map((task, _, arr) => {
-            console.log(arr);
             return (
               <TaskCard
                 key={task.id}

@@ -92,7 +92,7 @@ function TaskCard({
       style={{ ...style }}
       {...attributes}
       {...listeners}
-      onClick={toggleEditMode}
+      //onClick={toggleEditMode}
       className="
         bg-main-700 p-2.5 h-[100px]
       min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset
@@ -114,6 +114,7 @@ function TaskCard({
       >
         {task.description}
       </p>
+      <p>{task.id}</p>
       <p>{task.status}</p>
       <p>{task.priority}</p>
       <p>{task.taskOrder}</p>
