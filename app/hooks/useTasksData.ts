@@ -18,7 +18,6 @@ export const useTasksData = () => {
 
 //DELETE TASK
 const deleteTask = function (id: Id) {
-  console.log('axios delete');
   return axios.delete(`${BASE_URL}/tasks/${id}`);
 };
 
@@ -27,22 +26,16 @@ export const useDeleteTask = () => {
   return useMutation({
     mutationFn: (taskId: Id) => deleteTask(taskId),
     onMutate: async (taskId, context) => {
-      console.log(taskId);
       await context.client.cancelQueries({ queryKey: ['tasks'] });
       const previousData = context.client.getQueryData(['tasks']);
 
       // Optimistically update to the new value
       if (previousData) {
-        console.log(previousData);
-        console.log('BREAKS');
         context.client.setQueryData(['tasks'], {
           ...previousData,
           data: [...previousData?.data.filter((task) => task.id !== taskId)],
         });
-        console.log('BREAKS2');
       }
-      console.log('flag2');
-
       // Return a result with the snapshotted value
       return { previousData };
     },
