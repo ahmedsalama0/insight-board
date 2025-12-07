@@ -1,3 +1,4 @@
+import { Status } from './../tasks/models/types.model';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Id, Task } from '../tasks/models/types.model';
@@ -16,13 +17,58 @@ export const useTasksData = () => {
   });
 };
 
+//UPDATE TASK
+//moving a task within the same column - order changing
+const updateTasksOrder = (tasks: Task[]) => {
+  return axios
+    .put(`${BASE_URL}/tasks/${tasks[0].id}`, {
+      ...tasks[0],
+      taskOrder: tasks[1].taskOrder,
+    })
+    .then(() => {
+      return axios.put(`${BASE_URL}/tasks/${tasks[1].id}`, {
+        ...tasks[1],
+        taskOrder: tasks[0].taskOrder,
+      });
+    });
+};
+
+export const useUpdateTasksOrder = () => {
+  return useMutation({
+    mutationFn: (tasks: Task[]) => updateTasksOrder(tasks),
+    onMutate: async (tasks, context) => {
+      await context.client.cancelQueries({ queryKey: ['tasks'] });
+      const previousData = context.client.getQueryData(['tasks']);
+      if (previousData) {
+        context.client.setQueryData(['tasks'], {
+          ...previousData,
+          data: [
+            ...previousData?.data,
+            { ...tasks[0], taskOrder: tasks[1].taskOrder },
+            { ...tasks[1], taskOrder: tasks[0].taskOrder },
+          ],
+        });
+      }
+      console.log();
+      console.log('!!!!! REACHED !!!!!');
+      return previousData;
+    },
+    onError: (err, newTask, onMutateResult, context) => {
+      context.client.setQueryData(['tasks'], onMutateResult?.previousData);
+    },
+    // Always refetch after error or success:
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      return context.client.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+};
+
 //DELETE TASK
 const deleteTask = function (id: Id) {
   return axios.delete(`${BASE_URL}/tasks/${id}`);
 };
 
 export const useDeleteTask = () => {
-  console.log('usedeletetask');
   return useMutation({
     mutationFn: (taskId: Id) => deleteTask(taskId),
     onMutate: async (taskId, context) => {
@@ -46,7 +92,7 @@ export const useDeleteTask = () => {
     },
     // Always refetch after error or success:
     onSettled: (data, error, variables, onMutateResult, context) => {
-      return context.client.invalidateQueries({ queryKey: ['todos'] });
+      return context.client.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
 };
@@ -93,7 +139,7 @@ export const useAddTask = () => {
     },
     // Always refetch after error or success:
     onSettled: (data, error, variables, onMutateResult, context) => {
-      return context.client.invalidateQueries({ queryKey: ['todos'] });
+      return context.client.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
 };

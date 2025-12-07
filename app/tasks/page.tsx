@@ -18,16 +18,21 @@ import ColumnContainer from '@/app/ui/components/ColumnContainer';
 import FormDialog from '../ui/components/FormDialog';
 import { BOARD_COLUMNS } from './data/data';
 import { useQuery } from '@tanstack/react-query';
-import { useAddTask, useDeleteTask, useTasksData } from '../hooks/useTasksData';
+import {
+  useAddTask,
+  useDeleteTask,
+  useTasksData,
+  useUpdateTasksOrder,
+} from '../hooks/useTasksData';
+import { Task } from '@mui/icons-material';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
   // Column | null //in case we are dragging a col or we don't drag anything
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
-  const [dialogOpened, setDialogOpened] = useState<boolean>(false);
   const [formValue, setFormValue] = useState<any>(null);
-  const [showForm, setShowForm] = useState<boolean>(false);
+
   const {
     mutate: addTask,
     isError: addTaskError,
@@ -52,6 +57,8 @@ export default function Page() {
 
   const { isPending, isLoading, isFetching, isError, error, data, refetch } =
     useTasksData();
+
+  const { mutate: mutateTasksOrder } = useUpdateTasksOrder();
   if (isPending || isLoading || isFetching) {
     return <h2>Loading</h2>;
   }
@@ -137,7 +144,6 @@ export default function Page() {
     // };
     const newTask: Task = task;
     addTask(newTask);
-    console.log(newTask);
     //setTasks([...tasks, newTask]);
   }
 
@@ -207,15 +213,15 @@ export default function Page() {
     // [DANGER, ERROR] //we can comment in  the next line because there is nothing is gonna change when this happen
     if (activeColumnId === overColumnId) return;
 
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex(
-        (col) => col.id === activeColumnId
-      );
-      const overColumnIndex = columns.findIndex(
-        (col) => col.id === overColumnId
-      );
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    });
+    // setColumns((columns) => {
+    //   const activeColumnIndex = columns.findIndex(
+    //     (col) => col.id === activeColumnId
+    //   );
+    //   const overColumnIndex = columns.findIndex(
+    //     (col) => col.id === overColumnId
+    //   );
+    //   return arrayMove(columns, activeColumnIndex, overColumnIndex);
+    // });
   }
 
   function onDragOver(event: DragOverEvent) {
@@ -237,36 +243,52 @@ export default function Page() {
     // - dropping a task over another task or over a column
     //I'm dropping a Task over another task
     if (isActiveAtask && isOverATask) {
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        const overIndex = tasks.findIndex((t) => t.id === overId);
+      console.log('task over a task');
+      // setTasks((tasks) => {
 
-        //we can remove the following if check, since if they're in the same
-        //column, according to the logic is not gonna change
-        //if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
-        tasks[activeIndex].columnId = tasks[overIndex].columnId;
-        //}
+      //const activeIndex = tasks.findIndex((t) => t.id === activeId);
+      //const overIndex = tasks.findIndex((t) => t.id === overId);
+      const activeTask = data?.data.find((task) => task.id === activeId);
+      const overTask = data?.data.find((task) => task.id === overId);
+      console.log(activeTask);
+      console.log(overTask);
+      mutateTasksOrder([activeTask, overTask]);
+      /*
+      if (activeTask === null || overTask === null) return;
 
-        return arrayMove(tasks, activeIndex, overIndex);
-      });
+      mutateTaskStatus({ ...activeTask, taskOrder: overTask.taskOrder });
+      mutateTaskStatus({ ...overTask, taskOrder: activeTask.taskOrder });
+*/
+      console.log('PASSED!');
+      //we can remove the following if check, since if they're in the same
+      //column, according to the logic is not gonna change
+      //if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
+      //tasks[activeIndex].columnId = tasks[overIndex].columnId;
+      //}
+
+      //   return arrayMove(tasks, activeIndex, overIndex);
+      // });
     }
 
     //I'm dropping a Task over a column
     const isOverAColumn = over.data.current?.type === 'Column';
     if (isActiveAtask && isOverAColumn) {
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        tasks[activeIndex].columnId = overId;
+      console.log('task over a column');
+      //const activeTask = data?.data.find(task => task.id === activeId);
+      //   setTasks((tasks) => {
+      //     const activeIndex = tasks.findIndex((t) => t.id === activeId);
+      //     // tasks[activeIndex].columnId = overId;
 
-        const overColumnIndex = columns.findIndex((col) => col.id === overId);
+      //     const overColumnIndex = columns.findIndex((col) => col.id === overId);
 
-        tasks[activeIndex].status = returnColumnStatus(overColumnIndex);
-        console.log('BREAKPOINT:');
-        console.log(overColumnIndex);
-        console.log(tasks[activeIndex].columnId);
-        console.log(returnColumnStatus(overColumnIndex));
-        return arrayMove(tasks, activeIndex, activeIndex); //triggering a re-render of tasks because we're returning a new array
-      });
+      //     tasks[activeIndex].status = returnColumnStatus(overColumnIndex);
+      //     console.log('BREAKPOINT:');
+      //     console.log(overColumnIndex);
+      //     console.log(tasks[activeIndex].columnId);
+      //     console.log(returnColumnStatus(overColumnIndex));
+      //     return arrayMove(tasks, activeIndex, activeIndex); //triggering a re-render of tasks because we're returning a new array
+      //   }
+      // );
     }
   }
 }

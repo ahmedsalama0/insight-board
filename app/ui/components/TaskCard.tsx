@@ -5,6 +5,7 @@ import { Id, Task } from '@/app/tasks/models/types.model';
 import { CSS } from '@dnd-kit/utilities';
 
 import { useSortable } from '@dnd-kit/sortable';
+import PenIcon from '../icons/PenIcon';
 
 function TaskCard({
   task,
@@ -94,8 +95,8 @@ function TaskCard({
       {...listeners}
       //onClick={toggleEditMode}
       className="
-        bg-main-700 p-2.5 h-[100px]
-      min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset
+        bg-main-700 p-2.5 h-[150px]
+      min-h-[150px] items-start flex flex-col text-left rounded-xl hover:ring-2 hover:ring-inset
       hover:ring-rose-500
       cursor-grab relative task
   "
@@ -119,17 +120,28 @@ function TaskCard({
       <p>{task.priority}</p>
       <p>{task.taskOrder}</p>
       {mouseIsOver && (
-        <button
-          style={{}}
-          onClick={() => {
-            deleteTask(task.id);
-          }}
-          className="
-                stroke-white absolute right-4 top-1/2 -translate-y-1/2 
-      bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
-        >
-          <TrashIcon />
-        </button>
+        <>
+          <button
+            onClick={() => {
+              //deleteTask(task.id);
+            }}
+            className="
+          stroke-white absolute right-4 top-1/3 -translate-y-1/2 
+          bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
+          >
+            <PenIcon />
+          </button>
+          <button
+            onClick={() => {
+              deleteTask(task.id);
+            }}
+            className="
+          stroke-white absolute right-4 top-2/3 -translate-y-1/2 
+          bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
+          >
+            <TrashIcon />
+          </button>
+        </>
       )}
     </div>
   );

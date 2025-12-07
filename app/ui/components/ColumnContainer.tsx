@@ -178,7 +178,7 @@ function ColumnContainer({
           {tasks.map((task, _, arr) => {
             return (
               <TaskCard
-                key={task.id}
+                key={task.title}
                 task={task}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
