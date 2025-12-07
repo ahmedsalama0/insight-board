@@ -23,8 +23,8 @@ import {
   useDeleteTask,
   useTasksData,
   useUpdateTasksOrder,
+  useUpdateTasksStatus,
 } from '../hooks/useTasksData';
-import { Task } from '@mui/icons-material';
 
 export default function Page() {
   const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
@@ -59,6 +59,12 @@ export default function Page() {
     useTasksData();
 
   const { mutate: mutateTasksOrder } = useUpdateTasksOrder();
+
+  const { mutate: mutateTaskStatus } = useUpdateTasksStatus();
+  if (isPending || isLoading || isFetching) {
+    return <h2>Loading</h2>;
+  }
+
   if (isPending || isLoading || isFetching) {
     return <h2>Loading</h2>;
   }
@@ -105,27 +111,27 @@ export default function Page() {
         onDragOver={onDragOver}
       >
         <div className="m-auto flex gap-4">
-          {/* { <SortableContext items={columnsId}>} */}
-          <div className="flex gap-4">
-            {columns.map((col) => (
-              <ColumnContainer
-                key={col.id}
-                column={col}
-                // updateColumnTitle={updateColumnTitle}
-                // deleteColumn={deleteColumn}
-                createTask={createTask}
-                updateTask={updateTask}
-                deleteTask={deleteTask}
-                tasks={data?.data
-                  .filter((task, i, arr) => {
-                    return task.columnId === col.id;
-                  })
-                  .sort((a, b) => a.taskOrder - b.taskOrder)}
-                setFormValue={setFormValue}
-              />
-            ))}
-          </div>
-          {/* {   </SortableContext>} */}
+          <SortableContext items={columnsId}>
+            <div className="flex gap-4">
+              {columns.map((col) => (
+                <ColumnContainer
+                  key={col.id}
+                  column={col}
+                  // updateColumnTitle={updateColumnTitle}
+                  // deleteColumn={deleteColumn}
+                  createTask={createTask}
+                  updateTask={updateTask}
+                  deleteTask={deleteTask}
+                  tasks={data?.data
+                    .filter((task, i, arr) => {
+                      return task.columnId === col.id;
+                    })
+                    .sort((a, b) => a.taskOrder - b.taskOrder)}
+                  setFormValue={setFormValue}
+                />
+              ))}
+            </div>
+          </SortableContext>
         </div>
       </DndContext>
     </div>
@@ -243,15 +249,12 @@ export default function Page() {
     // - dropping a task over another task or over a column
     //I'm dropping a Task over another task
     if (isActiveAtask && isOverATask) {
-      console.log('task over a task');
       // setTasks((tasks) => {
 
       //const activeIndex = tasks.findIndex((t) => t.id === activeId);
       //const overIndex = tasks.findIndex((t) => t.id === overId);
       const activeTask = data?.data.find((task) => task.id === activeId);
       const overTask = data?.data.find((task) => task.id === overId);
-      console.log(activeTask);
-      console.log(overTask);
       mutateTasksOrder([activeTask, overTask]);
       /*
       if (activeTask === null || overTask === null) return;
@@ -259,7 +262,7 @@ export default function Page() {
       mutateTaskStatus({ ...activeTask, taskOrder: overTask.taskOrder });
       mutateTaskStatus({ ...overTask, taskOrder: activeTask.taskOrder });
 */
-      console.log('PASSED!');
+
       //we can remove the following if check, since if they're in the same
       //column, according to the logic is not gonna change
       //if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
@@ -274,6 +277,15 @@ export default function Page() {
     const isOverAColumn = over.data.current?.type === 'Column';
     if (isActiveAtask && isOverAColumn) {
       console.log('task over a column');
+      const activeTask = data?.data.find((task) => task.id === activeId);
+      console.log(activeTask);
+      const newTask = {
+        ...activeTask,
+        columnId: overId,
+        status: returnColumnStatus(+overId),
+      };
+      console.log(newTask);
+      mutateTaskStatus(newTask);
       //const activeTask = data?.data.find(task => task.id === activeId);
       //   setTasks((tasks) => {
       //     const activeIndex = tasks.findIndex((t) => t.id === activeId);
@@ -282,10 +294,6 @@ export default function Page() {
       //     const overColumnIndex = columns.findIndex((col) => col.id === overId);
 
       //     tasks[activeIndex].status = returnColumnStatus(overColumnIndex);
-      //     console.log('BREAKPOINT:');
-      //     console.log(overColumnIndex);
-      //     console.log(tasks[activeIndex].columnId);
-      //     console.log(returnColumnStatus(overColumnIndex));
       //     return arrayMove(tasks, activeIndex, activeIndex); //triggering a re-render of tasks because we're returning a new array
       //   }
       // );

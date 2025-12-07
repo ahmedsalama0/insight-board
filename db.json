@@ -2,12 +2,12 @@
   "tasks": [
     {
       "id": "1",
-      "columnId": 1,
+      "columnId": 2,
       "title": "User Authentication",
       "description": "Implement user authentication",
       "priority": "high",
-      "status": "in-progress",
-      "taskOrder": 84,
+      "status": "done",
+      "taskOrder": 33,
       "createdAt": "2025-01-10T09:15:00Z",
       "updatedAt": "2025-01-12T14:30:00Z"
     },
@@ -46,12 +46,12 @@
     },
     {
       "id": "5",
-      "columnId": 0,
+      "columnId": 2,
       "title": "Angular Components",
       "description": "Build Angular components",
       "priority": "medium",
-      "status": "todo",
-      "taskOrder": 5,
+      "status": "done",
+      "taskOrder": 33,
       "createdAt": "2025-01-13T08:00:00Z",
       "updatedAt": "2025-01-13T08:00:00Z"
     },
@@ -62,7 +62,7 @@
       "description": "Style frontend pages",
       "priority": "low",
       "status": "in-review",
-      "taskOrder": 67,
+      "taskOrder": 33,
       "createdAt": "2025-01-07T16:30:00Z",
       "updatedAt": "2025-01-12T10:40:00Z"
     },
@@ -84,7 +84,7 @@
       "description": "Write unit tests",
       "priority": "medium",
       "status": "todo",
-      "taskOrder": 48,
+      "taskOrder": 70,
       "createdAt": "2025-01-14T09:00:00Z",
       "updatedAt": "2025-01-14T09:00:00Z"
     },
@@ -95,7 +95,7 @@
       "description": "Prepare deployment pipeline",
       "priority": "high",
       "status": "todo",
-      "taskOrder": 9,
+      "taskOrder": 33,
       "createdAt": "2025-01-06T12:30:00Z",
       "updatedAt": "2025-01-06T12:30:00Z"
     },
@@ -106,7 +106,7 @@
       "description": "Optimize database queries",
       "priority": "medium",
       "status": "in-review",
-      "taskOrder": 70,
+      "taskOrder": 84,
       "createdAt": "2025-01-03T15:10:00Z",
       "updatedAt": "2025-01-11T18:45:00Z"
     }
