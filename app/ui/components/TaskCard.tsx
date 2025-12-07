@@ -6,6 +6,8 @@ import { CSS } from '@dnd-kit/utilities';
 
 import { useSortable } from '@dnd-kit/sortable';
 import PenIcon from '../icons/PenIcon';
+import FormDialogEdit from './FormDialogEdit';
+import { useUpdateTaskContents } from '@/app/hooks/useTasksData';
 
 function TaskCard({
   task,
@@ -14,9 +16,11 @@ function TaskCard({
 }: {
   task: Task;
   deleteTask(id: Id): void;
-  updateTask: (id: Id, content: string) => void;
+  updateTask: (task: Task) => void;
 }) {
   const [editMode, setEditMode] = useState(false);
+  const { mutate: mutateTaskContent } = useUpdateTaskContents();
+
   const {
     setNodeRef,
     attributes,
@@ -82,7 +86,7 @@ function TaskCard({
           onKeyDown={(e) => {
             if (e.key === 'Enter' && e.shiftKey) toggleEditMode();
           }}
-          onChange={(e) => updateTask(task.id, e.target.value)}
+          //onChange={(e) => updateTask(task.id, e.target.value)}
         ></textarea>
       </div>
     );
@@ -129,7 +133,7 @@ function TaskCard({
           stroke-white absolute right-4 top-1/3 -translate-y-1/2 
           bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
           >
-            <PenIcon />
+            <FormDialogEdit task={task} updateTask={updateTask} />
           </button>
           <button
             onClick={() => {

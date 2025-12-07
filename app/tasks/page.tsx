@@ -22,6 +22,7 @@ import {
   useAddTask,
   useDeleteTask,
   useTasksData,
+  useUpdateTaskContents,
   useUpdateTasksOrder,
   useUpdateTasksStatus,
 } from '../hooks/useTasksData';
@@ -59,6 +60,7 @@ export default function Page() {
     useTasksData();
 
   const { mutate: mutateTasksOrder } = useUpdateTasksOrder();
+  const { mutate: mutateTaskContent } = useUpdateTaskContents();
 
   const { mutate: mutateTaskStatus } = useUpdateTasksStatus();
   if (isPending || isLoading || isFetching) {
@@ -153,12 +155,13 @@ export default function Page() {
     //setTasks([...tasks, newTask]);
   }
 
-  function updateTask(id: Id, content: string) {
-    const newTasks = tasks.map((task) => {
-      if (task.id !== id) return task;
-      return { ...task, content };
-    });
-    setTasks(newTasks);
+  function updateTask(task: Task) {
+    // const newTasks = tasks.map((task) => {
+    //   if (task.id !== id) return task;
+    //   return { ...task, content };
+    // });
+    // setTasks(newTasks);
+    mutateTaskContent(task);
   }
 
   function deleteTask(id: Id) {

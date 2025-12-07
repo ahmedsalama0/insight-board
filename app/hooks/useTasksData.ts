@@ -63,7 +63,6 @@ export const useUpdateTasksOrder = () => {
 //UPDATE TASK (Status, columnId)
 //moving a task to another column - columnId
 const updateTaskStatus = (task: Task) => {
-  console.log(task);
   return axios.put(`${BASE_URL}/tasks/${task.id}`, {
     ...task,
   });
@@ -81,7 +80,40 @@ export const useUpdateTasksStatus = () => {
           data: [...previousData?.data, task],
         });
       }
-      console.log('task over a col mutation!');
+      return previousData;
+    },
+    onError: (err, newTask, onMutateResult, context) => {
+      console.log(err);
+      context.client.setQueryData(['tasks'], onMutateResult?.previousData);
+    },
+    // Always refetch after error or success:
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      return context.client.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+};
+
+//UPDATE TASK contents
+//moving a task to another column - columnId
+const updateTaskContents = (task: Task) => {
+  console.log(task);
+  return axios.put(`${BASE_URL}/tasks/${task.id}`, {
+    ...task,
+  });
+};
+
+export const useUpdateTaskContents = () => {
+  return useMutation({
+    mutationFn: (task: Task) => updateTaskContents(task),
+    onMutate: async (task, context) => {
+      await context.client.cancelQueries({ queryKey: ['tasks'] });
+      const previousData = context.client.getQueryData(['tasks']);
+      if (previousData) {
+        context.client.setQueryData(['tasks'], {
+          ...previousData,
+          data: [...previousData?.data, task],
+        });
+      }
       return previousData;
     },
     onError: (err, newTask, onMutateResult, context) => {

@@ -24,7 +24,7 @@ function ColumnContainer({
   //deleteColumn(id: Id): void; //function declaration
   //updateColumnTitle: (id: Id, title: string) => void;
   createTask: (task: Task) => void; //arrow fn
-  updateTask(id: Id, content: string): void;
+  updateTask(task: Task): void;
   deleteTask(id: Id): void;
   tasks: Task[];
   setFormValue: React.Dispatch<any>;

@@ -9,10 +9,12 @@ export default function FormInputSelect({
   title,
   options,
   name,
+  value,
 }: {
   title: string;
   options: string[];
   name: string;
+  value: string;
 }) {
   const handleChange = (event: SelectChangeEvent) => {
     //setAge(event.target.value as string);
@@ -29,6 +31,7 @@ export default function FormInputSelect({
           name={name}
           label={title}
           onChange={handleChange}
+          defaultValue={value}
         >
           {options.map((option, i) => {
             return (
