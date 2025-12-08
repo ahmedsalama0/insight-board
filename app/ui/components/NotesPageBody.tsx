@@ -38,9 +38,8 @@ export default function NotesPageBody() {
 
   return (
     <div className="@container flex flex-wrap  gap-2 m-2 p-2 h-full rounded bg-[#222]">
-      {data?.data.map((note: any) => {
-        console.log(note);
-        return <NoteCard key={note?.id} content={note?.content} />;
+      {data?.data.map((note: any, i) => {
+        return <NoteCard key={i} note={note} />;
       })}
     </div>
   );

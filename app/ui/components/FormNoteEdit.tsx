@@ -8,8 +8,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { generateId } from '@/app/tasks/page';
+import PenIcon from '../icons/PenIcon';
+import { Note } from '@/app/tasks/models/types.model';
+import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 
-export default function FormNoteEdit() {
+export default function FormNoteEdit({ note }: { note: Note }) {
+  const {
+    data,
+    isError,
+    mutate: updateNoteContentMutate,
+  } = useNotesUpdateData();
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -25,22 +34,35 @@ export default function FormNoteEdit() {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
 
-    ({
-      id: generateId(),
+    const newNote = {
+      id: note.id,
       content: formJson?.content,
-    });
+    };
+
+    updateNoteContentMutate(newNote);
+
     handleClose();
   };
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add Task
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <button
+        className="stroke-[#aaa] hover:stroke-rose-600"
+        onClick={handleClickOpen}
+      >
+        <PenIcon />
+      </button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        sx={{
+          height: '100%',
+        }}
+      >
         <DialogTitle>Note Editor</DialogTitle>
         <DialogContent>
-          <DialogContentText>Edit note content</DialogContentText>
+          <DialogContentText>Edit note contents</DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               autoFocus
@@ -53,6 +75,7 @@ export default function FormNoteEdit() {
               fullWidth
               variant="standard"
               sx={{ marginBottom: '10px' }}
+              defaultValue={note?.content}
             />
           </form>
         </DialogContent>
