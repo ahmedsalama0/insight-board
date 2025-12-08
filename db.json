@@ -111,6 +111,48 @@
       "updatedAt": "2025-01-11T18:45:00Z"
     }
   ],
-  "notes": [],
+  "notes": [
+    {
+      "id": 1,
+      "content": "Review project requirements and update documentation."
+    },
+    {
+      "id": 2,
+      "content": "Remember to refactor the authentication module."
+    },
+    {
+      "id": 3,
+      "content": "Schedule meeting with the frontend team."
+    },
+    {
+      "id": 4,
+      "content": "Check database migration issues before next deployment."
+    },
+    {
+      "id": 5,
+      "content": "Explore optimization options for API response time."
+    },
+    {
+      "id": 6,
+      "content": "Prepare UI mockups for the dashboard redesign."
+    },
+    {
+      "id": 7,
+      "content": "Write additional unit tests for the payment service."
+    },
+    {
+      "id": 8,
+      "content": "Backup the local database before running tests."
+    },
+    {
+      "id": 9,
+      "content": "Review security warnings in the latest dependency scan."
+    },
+    {
+      "id": 10,
+      "content": "eee"
+    }
+  ],
+
   "users": []
 }

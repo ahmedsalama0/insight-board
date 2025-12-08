@@ -3,9 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Id, Task } from '../tasks/models/types.model';
 import { error } from 'console';
-
-const BASE_URL = 'http://localhost:4000';
-
+import { BASE_URL } from '../global/constants';
 // READ TASKS
 const fetchTasks = () => {
   return axios.get(`${BASE_URL}/tasks`);

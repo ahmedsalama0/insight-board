@@ -18,3 +18,8 @@ export type Task = {
 };
 
 export type Status = 'todo' | 'in-progress' | 'done';
+
+export type Note = {
+  id: Id;
+  content: string;
+};
