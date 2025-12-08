@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { BASE_URL } from '../global/constants';
 import axios from 'axios';
-import { Note } from '../tasks/models/types.model';
 
 import { createNote as generateNote } from '../utilities/helpers';
 

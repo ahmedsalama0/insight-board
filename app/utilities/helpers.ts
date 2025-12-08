@@ -1,3 +1,4 @@
+'use client';
 import { Note } from '../tasks/models/types.model';
 import { generateId } from '../tasks/page';
 

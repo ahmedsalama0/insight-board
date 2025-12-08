@@ -34,11 +34,14 @@ export default function NotesPageBody() {
       </div>
     );
 
+  if (data?.data.length === 0) return <div>No data to display!</div>;
+
   return (
     <div className="@container flex flex-wrap  gap-2 m-2 p-2 h-full rounded bg-[#222]">
-      {data?.data.map((note: Note) => (
-        <NoteCard key={note.id} content={note.content} />
-      ))}
+      {data?.data.map((note: any) => {
+        console.log(note);
+        return <NoteCard key={note?.id} content={note?.content} />;
+      })}
     </div>
   );
 }

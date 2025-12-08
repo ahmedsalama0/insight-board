@@ -8,7 +8,7 @@ export default function Page() {
       <header className="@container">
         <NotesPageHeader />
       </header>
-      <Divider sx={{ backgroundColor: '#fff' }} />
+      <Divider sx={{ backgroundColor: '#aaa' }} />
       <NotesPageBody />
     </div>
   );
