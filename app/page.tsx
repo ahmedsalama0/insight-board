@@ -1,9 +1,11 @@
+import EditorClient from './ui/components/EditorClient';
 import { Tiptab } from './ui/components/Tiptap';
 
 export default function Page() {
   return (
     <div className="">
       <div>This is the main page of the app</div>
+      <EditorClient />
     </div>
   );
 }
