@@ -7,10 +7,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { generateId } from '@/app/tasks/page';
 import PenIcon from '../icons/PenIcon';
 import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
+import { inputDebounce } from '@/app/utilities/inputDebounce';
 
 export default function FormNoteEdit({ note }: { note: Note }) {
   const {
@@ -20,6 +20,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
   } = useNotesUpdateData();
 
   const [open, setOpen] = React.useState(false);
+  const [inputChanged, setInputChanged] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,17 +30,27 @@ export default function FormNoteEdit({ note }: { note: Note }) {
     setOpen(false);
   };
 
+  function onInputChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const newNote = {
+      id: note.id,
+      content: event.target.value,
+    };
+    updateNoteContentMutate(newNote);
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
 
-    const newNote = {
-      id: note.id,
-      content: formJson?.content,
-    };
+    // const newNote = {
+    //   id: note.id,
+    //   content: formJson?.content,
+    // };
 
-    updateNoteContentMutate(newNote);
+    // updateNoteContentMutate(newNote);
 
     handleClose();
   };
@@ -76,14 +87,16 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               variant="standard"
               sx={{ marginBottom: '10px' }}
               defaultValue={note?.content}
+              //onChange={onInputChange}
+              onChange={inputDebounce(onInputChange)}
             />
           </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" form="subscription-form">
+          {/* <Button type="submit" form="subscription-form">
             Save
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </React.Fragment>
