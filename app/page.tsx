@@ -1,3 +1,9 @@
+import { Tiptab } from './ui/components/Tiptap';
+
 export default function Page() {
-  return <div>This is the main page of the app</div>;
+  return (
+    <div className="">
+      <div>This is the main page of the app</div>
+    </div>
+  );
 }

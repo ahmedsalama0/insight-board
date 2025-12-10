@@ -11,6 +11,7 @@ import PenIcon from '../icons/PenIcon';
 import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 import { inputDebounce } from '@/app/utilities/inputDebounce';
+import { Tiptab } from './Tiptap';
 
 export default function FormNoteEdit({ note }: { note: Note }) {
   const {
@@ -90,6 +91,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               //onChange={onInputChange}
               onChange={inputDebounce(onInputChange)}
             />
+            {/* <Tiptab /> */}
           </form>
         </DialogContent>
         <DialogActions>
