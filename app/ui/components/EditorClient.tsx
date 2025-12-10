@@ -2,7 +2,6 @@
 
 import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useRef, useState } from 'react';
-
 export default function EditorClient({
   initialValue,
 }: {
@@ -11,24 +10,22 @@ export default function EditorClient({
   const editorRef = useRef<any>(null);
   const [dirty, setDirty] = useState(false);
   useEffect(() => setDirty(false), [initialValue]);
-
   const save = () => {
     if (editorRef.current) {
       const content = editorRef.current.getContent();
       setDirty(false);
       editorRef.current.setDirty(false);
       // an application would save the editor content to the server here
-      console.log(content);
     }
   };
-
-  if (!editorRef) return <div>LOADING...</div>;
 
   return (
     <>
       <Editor
         initialValue={`<p>tttt<strong>ttt</strong>t</p>`}
-        onInit={(_evt, editor) => (editorRef.current = editor)}
+        onInit={(_evt, editor) => {
+          editorRef.current = editor;
+        }}
         onDirty={() => setDirty(true)}
         apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
         init={{

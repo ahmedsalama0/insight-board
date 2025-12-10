@@ -114,15 +114,15 @@
   "notes": [
     {
       "id": "1",
-      "content": "some input here"
+      "content": "<p>pppppppppppppppppppppppppppppppsome input here&nbsp;</p>"
     },
     {
       "id": "2",
-      "content": "Remember to refactor the authentication module."
+      "content": "<p>ddddddddddddssssss</p>"
     },
     {
       "id": "3",
-      "content": "Schedule meeting with the frontend team."
+      "content": "<p>Schedule meeting with the frontend team.</p>"
     },
     {
       "id": "4",

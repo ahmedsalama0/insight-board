@@ -12,6 +12,7 @@ import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 import { inputDebounce } from '@/app/utilities/inputDebounce';
 import { Tiptab } from './Tiptap';
+import { Editor } from '@tinymce/tinymce-react';
 
 export default function FormNoteEdit({ note }: { note: Note }) {
   const {
@@ -22,6 +23,8 @@ export default function FormNoteEdit({ note }: { note: Note }) {
 
   const [open, setOpen] = React.useState(false);
   const [inputChanged, setInputChanged] = React.useState<boolean>(false);
+  const [dirty, setDirty] = React.useState(false);
+  const editorRef = React.useRef<any>(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,13 +34,12 @@ export default function FormNoteEdit({ note }: { note: Note }) {
     setOpen(false);
   };
 
-  function onInputChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  function onInputChange(value: any) {
     const newNote = {
       id: note.id,
-      content: event.target.value,
+      content: value,
     };
+    //console.log(newNote);
     updateNoteContentMutate(newNote);
   }
 
@@ -45,14 +47,6 @@ export default function FormNoteEdit({ note }: { note: Note }) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
-
-    // const newNote = {
-    //   id: note.id,
-    //   content: formJson?.content,
-    // };
-
-    // updateNoteContentMutate(newNote);
-
     handleClose();
   };
 
@@ -76,7 +70,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
         <DialogContent>
           <DialogContentText>Edit note contents</DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
-            <TextField
+            {/* <TextField
               autoFocus
               required
               margin="dense"
@@ -90,8 +84,25 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               defaultValue={note?.content}
               //onChange={onInputChange}
               onChange={inputDebounce(onInputChange)}
+            /> */}
+            <Editor
+              id="editor"
+              initialValue={note.content}
+              onInit={(_evt, editor) => {
+                editorRef.current = editor;
+              }}
+              onEditorChange={inputDebounce(onInputChange)}
+              apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
+              init={{
+                height: 500,
+                plugins: 'lists link image table code help wordcount',
+                toolbar:
+                  'undo redo | formatselect | bold italic emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                //skin: 'oxide-dark',
+                //content_css: 'dark',
+                menubar: 'file edit view',
+              }}
             />
-            {/* <Tiptab /> */}
           </form>
         </DialogContent>
         <DialogActions>

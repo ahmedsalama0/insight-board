@@ -78,8 +78,10 @@ export const useNotesUpdateData = () => {
           data: [...previousData?.data, newNote],
         });
       }
+      console.log('mutation query executed!');
     },
     onError: (err, _newTask, onMutateResult, context) => {
+      console.log(err);
       context.client.setQueryData([QUERY_KEY], onMutateResult?.previousData);
     },
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
