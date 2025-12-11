@@ -73,7 +73,6 @@ export default function Page() {
         <div>{error.message}</div>
         <button
           onClick={() => {
-            console.log('clicked');
             refetch();
           }}
         >
@@ -196,7 +195,6 @@ export default function Page() {
   // }
 
   function onDragStart(event: DragStartEvent) {
-    console.log(`DRAG START ${event}`, event);
     if (event.active.data.current?.type === 'Column') {
       setActiveColumn(event.active.data.current.column);
     }
@@ -279,15 +277,14 @@ export default function Page() {
     //I'm dropping a Task over a column
     const isOverAColumn = over.data.current?.type === 'Column';
     if (isActiveAtask && isOverAColumn) {
-      console.log('task over a column');
       const activeTask = data?.data.find((task) => task.id === activeId);
-      console.log(activeTask);
+
       const newTask = {
         ...activeTask,
         columnId: overId,
         status: returnColumnStatus(+overId),
       };
-      console.log(newTask);
+
       mutateTaskStatus(newTask);
       //const activeTask = data?.data.find(task => task.id === activeId);
       //   setTasks((tasks) => {
