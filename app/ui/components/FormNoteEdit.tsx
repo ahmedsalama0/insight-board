@@ -19,10 +19,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
     isError,
     mutate: updateNoteContentMutate,
   } = useNotesUpdateData();
-
   const [open, setOpen] = React.useState(false);
-  const inputTitle = React.useRef<any>(null);
-  const editorRef = React.useRef<any>(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,16 +29,35 @@ export default function FormNoteEdit({ note }: { note: Note }) {
     setOpen(false);
   };
 
-  function onInputChange(value: any) {
-    // console.log(value);
+  function onEditorChange(value: any) {
+    console.log(value);
     const newNote = {
       id: note.id,
-      title: 'some title',
+      title: note.title,
       content: value,
     };
-    console.log(inputTitle.current);
     console.log(newNote);
     updateNoteContentMutate(newNote);
+  }
+  function onInputChange(event: any) {
+    const newNote = {
+      id: note.id,
+      title: event.target.value,
+      //content: editorRef.current,
+    };
+    console.log(newNote);
+    updateNoteContentMutate(newNote);
+  }
+
+  function onTitleChange(event: any) {
+    console.log(event);
+    const updatedNote = {
+      id: note.id,
+      title: event.target.value,
+      content: note.content,
+    };
+    console.log(updatedNote);
+    updateNoteContentMutate(updatedNote);
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -97,17 +113,17 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               fullWidth
               variant="standard"
               sx={{ marginBottom: '10px' }}
-              defaultValue={note?.title}
-              //onChange={onInputChange}
-              ref={inputTitle}
+              //defaultValue={note?.title}
+              defaultValue={note.title}
+              // onChange={onInputChange}
+              onChange={inputDebounce(onTitleChange)}
             />
             <Editor
               id="editor"
               initialValue={note?.content}
-              onInit={(_evt, editor) => {
-                editorRef.current = editor;
-              }}
-              onEditorChange={inputDebounce(onInputChange)}
+              //value={editorValue}
+              // onEditorChange={inputDebounce(onEditorChange)}
+              onEditorChange={inputDebounce(onEditorChange)}
               apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
               init={{
                 height: 500,

@@ -5,7 +5,6 @@ export const inputDebounce = (func: Function, delay: number = 1500) => {
   return (...args: any) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      console.log(args);
       func.apply(this, args);
     }, delay);
   };
