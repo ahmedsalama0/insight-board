@@ -13,6 +13,7 @@ import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 import { ViewIcon } from '../icons/ViewIcon';
 import { Editor } from '@tinymce/tinymce-react';
+import { TINY_MCE_API_KEY } from '@/app/global/constants';
 
 export default function FormNoteView({ note }: { note: Note }) {
   const [open, setOpen] = React.useState(false);
@@ -78,7 +79,7 @@ export default function FormNoteView({ note }: { note: Note }) {
               }}
               disabled
               readonly
-              apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
+              apiKey={TINY_MCE_API_KEY}
               init={{
                 height: 500,
                 plugins: 'lists link image table code help wordcount',

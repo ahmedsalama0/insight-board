@@ -8,6 +8,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import PenIcon from '../icons/PenIcon';
 import FormDialogEdit from './FormDialogEdit';
 import { useUpdateTaskContents } from '@/app/hooks/useTasksData';
+import { Card } from '@mui/material';
 
 function TaskCard({
   task,
@@ -111,6 +112,7 @@ function TaskCard({
         setMouseIsOver(false);
       }}
     >
+      {/* <Card> */}
       <p
         className="
           my-auto h-[90%] w-full overflow-y-auto
@@ -147,6 +149,7 @@ function TaskCard({
           </button>
         </>
       )}
+      {/* {</Card>} */}
     </div>
   );
 }

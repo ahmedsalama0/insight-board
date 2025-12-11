@@ -131,7 +131,7 @@ function ColumnContainer({
         rounded-full
         "
           >
-            0
+            {tasks.length}
           </div>
           {!editMode && column.title}
           {/* {editMode && (
@@ -173,12 +173,11 @@ function ColumnContainer({
         flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto
       "
       >
-        <p>{tasks.length}</p>
         <SortableContext items={tasksIds}>
-          {tasks.map((task, _, arr) => {
+          {tasks.map((task, i, arr) => {
             return (
               <TaskCard
-                key={task.id}
+                key={i}
                 task={task}
                 deleteTask={deleteTask}
                 updateTask={updateTask}

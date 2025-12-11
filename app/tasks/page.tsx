@@ -67,11 +67,20 @@ export default function Page() {
     return <h2>Loading</h2>;
   }
 
-  if (isPending || isLoading || isFetching) {
-    return <h2>Loading</h2>;
-  }
-
-  if (isError) return <div>{error.message}</div>;
+  if (isError)
+    return (
+      <>
+        <div>{error.message}</div>
+        <button
+          onClick={() => {
+            console.log('clicked');
+            refetch();
+          }}
+        >
+          Retry
+        </button>
+      </>
+    );
 
   // return (
   //   <ul>
@@ -94,15 +103,6 @@ export default function Page() {
     px-[40px]
     "
     >
-      <button
-        onClick={() => {
-          console.log('clicked');
-          refetch();
-        }}
-      >
-        Retry
-      </button>
-
       {/* we added the sensor to activate the delete button
       since it is not working as the dndContext can't differentiate between delete click and drag click
       */}
@@ -113,27 +113,27 @@ export default function Page() {
         onDragOver={onDragOver}
       >
         <div className="m-auto flex gap-4">
-          <SortableContext items={columnsId}>
-            <div className="flex gap-4">
-              {columns.map((col) => (
-                <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  // updateColumnTitle={updateColumnTitle}
-                  // deleteColumn={deleteColumn}
-                  createTask={createTask}
-                  updateTask={updateTask}
-                  deleteTask={deleteTask}
-                  tasks={data?.data
-                    .filter((task, i, arr) => {
-                      return task.columnId === col.id;
-                    })
-                    .sort((a, b) => a.taskOrder - b.taskOrder)}
-                  setFormValue={setFormValue}
-                />
-              ))}
-            </div>
-          </SortableContext>
+          {/* <SortableContext items={columnsId}> */}
+          <div className="flex gap-4">
+            {columns.map((col, i) => (
+              <ColumnContainer
+                key={i}
+                column={col}
+                // updateColumnTitle={updateColumnTitle}
+                // deleteColumn={deleteColumn}
+                createTask={createTask}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+                tasks={data?.data
+                  .filter((task, i, arr) => {
+                    return task.columnId === col.id;
+                  })
+                  .sort((a, b) => a.taskOrder - b.taskOrder)}
+                setFormValue={setFormValue}
+              />
+            ))}
+          </div>
+          {/* </SortableContext> */}
         </div>
       </DndContext>
     </div>

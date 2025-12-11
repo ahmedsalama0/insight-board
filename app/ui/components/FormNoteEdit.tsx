@@ -12,6 +12,7 @@ import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 import { inputDebounce } from '@/app/utilities/inputDebounce';
 import { Editor } from '@tinymce/tinymce-react';
+import { TINY_MCE_API_KEY } from '@/app/global/constants';
 
 export default function FormNoteEdit({ note }: { note: Note }) {
   const {
@@ -124,7 +125,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               //value={editorValue}
               // onEditorChange={inputDebounce(onEditorChange)}
               onEditorChange={inputDebounce(onEditorChange)}
-              apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
+              apiKey={TINY_MCE_API_KEY}
               init={{
                 height: 500,
                 plugins: 'lists link image table code help wordcount',
