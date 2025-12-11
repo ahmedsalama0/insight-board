@@ -21,5 +21,6 @@ export type Status = 'todo' | 'in-progress' | 'done';
 
 export type Note = {
   id: Id;
+  title: string;
   content: string;
 };

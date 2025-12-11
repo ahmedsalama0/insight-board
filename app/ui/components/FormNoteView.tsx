@@ -12,9 +12,11 @@ import PenIcon from '../icons/PenIcon';
 import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 import { ViewIcon } from '../icons/ViewIcon';
+import { Editor } from '@tinymce/tinymce-react';
 
 export default function FormNoteView({ note }: { note: Note }) {
   const [open, setOpen] = React.useState(false);
+  const editorRef = React.useRef<any>(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,18 +56,37 @@ export default function FormNoteView({ note }: { note: Note }) {
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               margin="dense"
-              id="content"
-              name="content"
-              label="Content"
+              id="title"
+              name="title"
+              label="Title"
               type="text"
               fullWidth
               variant="standard"
               sx={{ marginBottom: '10px' }}
-              value={note?.content}
+              value={note?.title}
               slotProps={{
                 input: {
                   readOnly: true,
                 },
+              }}
+            />
+            <Editor
+              id="editor"
+              initialValue={note?.content}
+              onInit={(_evt, editor) => {
+                editorRef.current = editor;
+              }}
+              disabled
+              readonly
+              apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
+              init={{
+                height: 500,
+                plugins: 'lists link image table code help wordcount',
+                toolbar:
+                  'undo redo | formatselect | bold italic emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                //skin: 'oxide-dark',
+                //content_css: 'dark',
+                menubar: 'file edit view',
               }}
             />
           </form>

@@ -11,7 +11,6 @@ import PenIcon from '../icons/PenIcon';
 import { Note } from '@/app/tasks/models/types.model';
 import { useNotesUpdateData } from '@/app/hooks/useNotesData';
 import { inputDebounce } from '@/app/utilities/inputDebounce';
-import { Tiptab } from './Tiptap';
 import { Editor } from '@tinymce/tinymce-react';
 
 export default function FormNoteEdit({ note }: { note: Note }) {
@@ -22,8 +21,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
   } = useNotesUpdateData();
 
   const [open, setOpen] = React.useState(false);
-  const [inputChanged, setInputChanged] = React.useState<boolean>(false);
-  const [dirty, setDirty] = React.useState(false);
+  const inputTitle = React.useRef<any>(null);
   const editorRef = React.useRef<any>(null);
 
   const handleClickOpen = () => {
@@ -35,11 +33,14 @@ export default function FormNoteEdit({ note }: { note: Note }) {
   };
 
   function onInputChange(value: any) {
+    // console.log(value);
     const newNote = {
       id: note.id,
+      title: 'some title',
       content: value,
     };
-    //console.log(newNote);
+    console.log(inputTitle.current);
+    console.log(newNote);
     updateNoteContentMutate(newNote);
   }
 
@@ -85,9 +86,24 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               //onChange={onInputChange}
               onChange={inputDebounce(onInputChange)}
             /> */}
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="title"
+              name="title"
+              label="Title"
+              type="text"
+              fullWidth
+              variant="standard"
+              sx={{ marginBottom: '10px' }}
+              defaultValue={note?.title}
+              //onChange={onInputChange}
+              ref={inputTitle}
+            />
             <Editor
               id="editor"
-              initialValue={note.content}
+              initialValue={note?.content}
               onInit={(_evt, editor) => {
                 editorRef.current = editor;
               }}

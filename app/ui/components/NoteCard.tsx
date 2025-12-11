@@ -10,7 +10,7 @@ export default function NoteCard({ note }: { note: Note }) {
         <FormNoteView note={note} />
         <FormNoteEdit note={note} />
       </div>
-      <div className="">{note?.content}</div>
+      <div className="">{note?.title}</div>
     </div>
   );
 }
