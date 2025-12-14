@@ -26,6 +26,16 @@ import { FormInputText } from '../components/FormInputText.compoenent';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginFormType } from '../models/types.model';
 
+import * as z from 'zod';
+
+///////////////////////////////////////////
+const schema = z.object({
+  email: z.email({ pattern: z.regexes.email }).min(1, 'Email is required'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
+});
+
+///////////////////////////////////////////
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -69,7 +79,14 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
-  const { register, handleSubmit, control } = useForm<LoginFormType>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    setValue,
+    formState: { errors, touchedFields },
+  } = useForm<LoginFormType>({});
 
   const onSubmit: SubmitHandler<LoginFormType> = (data) => console.log(data);
 
@@ -109,6 +126,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               }}
             >
               <FormInputText
+                {...register}
                 control={control}
                 id="email"
                 name="email"
@@ -118,6 +136,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               />
 
               <FormInputText
+                {...register}
                 control={control}
                 id="password"
                 name="password"

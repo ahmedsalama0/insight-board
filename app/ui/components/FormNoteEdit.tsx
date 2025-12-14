@@ -115,7 +115,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               variant="standard"
               sx={{ marginBottom: '10px' }}
               //defaultValue={note?.title}
-              defaultValue={note.title}
+              defaultValue={note?.title}
               // onChange={onInputChange}
               onChange={inputDebounce(onTitleChange)}
             />
