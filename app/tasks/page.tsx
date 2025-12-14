@@ -26,8 +26,11 @@ import {
   useUpdateTasksOrder,
   useUpdateTasksStatus,
 } from '../hooks/useTasksData';
+import { useAuthGuard } from '../hooks/useAuthGuard';
 
 export default function Page() {
+  const authorized = useAuthGuard();
+
   const [columns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
   // Column | null //in case we are dragging a col or we don't drag anything
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
@@ -42,7 +45,7 @@ export default function Page() {
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useState<Task[]>([]);
+  //const [tasks, setTasks] = useState<Task[]>([]);
 
   //pointer sensor, touch sensor, et cetra
   const sensors = useSensors(
@@ -53,7 +56,6 @@ export default function Page() {
       },
     })
   );
-
   const { mutate: mutateDelete } = useDeleteTask();
 
   const { isPending, isLoading, isFetching, isError, error, data, refetch } =
@@ -63,6 +65,8 @@ export default function Page() {
   const { mutate: mutateTaskContent } = useUpdateTaskContents();
 
   const { mutate: mutateTaskStatus } = useUpdateTasksStatus();
+
+  if (!authorized) return null;
   if (isPending || isLoading || isFetching) {
     return <h2>Loading</h2>;
   }
