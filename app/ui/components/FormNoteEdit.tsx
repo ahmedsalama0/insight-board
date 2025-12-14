@@ -88,21 +88,6 @@ export default function FormNoteEdit({ note }: { note: Note }) {
         <DialogContent>
           <DialogContentText>Edit note contents</DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
-            {/* <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="content"
-              name="content"
-              label="Content"
-              type="text"
-              fullWidth
-              variant="standard"
-              sx={{ marginBottom: '10px' }}
-              defaultValue={note?.content}
-              //onChange={onInputChange}
-              onChange={inputDebounce(onInputChange)}
-            /> */}
             <TextField
               autoFocus
               required
@@ -114,16 +99,14 @@ export default function FormNoteEdit({ note }: { note: Note }) {
               fullWidth
               variant="standard"
               sx={{ marginBottom: '10px' }}
-              //defaultValue={note?.title}
+
               defaultValue={note?.title}
-              // onChange={onInputChange}
+
               onChange={inputDebounce(onTitleChange)}
             />
             <Editor
               id="editor"
               initialValue={note?.content}
-              //value={editorValue}
-              // onEditorChange={inputDebounce(onEditorChange)}
               onEditorChange={inputDebounce(onEditorChange)}
               apiKey={TINY_MCE_API_KEY}
               init={{
@@ -131,8 +114,7 @@ export default function FormNoteEdit({ note }: { note: Note }) {
                 plugins: 'lists link image table code help wordcount',
                 toolbar:
                   'undo redo | formatselect | bold italic emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-                //skin: 'oxide-dark',
-                //content_css: 'dark',
+
                 menubar: 'file edit view',
               }}
             />
@@ -140,9 +122,6 @@ export default function FormNoteEdit({ note }: { note: Note }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          {/* <Button type="submit" form="subscription-form">
-            Save
-          </Button> */}
         </DialogActions>
       </Dialog>
     </React.Fragment>

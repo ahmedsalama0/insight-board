@@ -16,13 +16,13 @@ import {
   returnColumnStatus,
 } from '@/app/tasks/page';
 
-//btnTitle, action
+
 export default function FormDialog({
-  setFormValue,
+  //setFormValue,
   createTask,
   columnId,
 }: {
-  setFormValue: React.Dispatch<any>;
+  //setFormValue: React.Dispatch<any>;
   createTask(task: Task): void;
   columnId: Id;
 }) {
@@ -41,7 +41,7 @@ export default function FormDialog({
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
     //const email = formJson.email;
-    setFormValue(formJson);
+    //setFormValue(formJson);
     createTask({
       id: generateId(),
       title: formJson?.title,
@@ -92,11 +92,6 @@ export default function FormDialog({
               variant="standard"
               sx={{ marginBottom: '10px' }}
             />
-            {/* <FormInputSelect
-              options={['todo', 'in-progress', 'done']}
-              title="Status"
-              name="status"
-            /> */}
             <FormInputSelect
               options={['low', 'medium', 'high']}
               title="Priority"

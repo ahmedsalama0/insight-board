@@ -1,5 +1,6 @@
 'use client';
 
+import { TINY_MCE_API_KEY } from '@/app/global/constants';
 import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useRef, useState } from 'react';
 export default function EditorClient({
@@ -27,7 +28,7 @@ export default function EditorClient({
           editorRef.current = editor;
         }}
         onDirty={() => setDirty(true)}
-        apiKey="7179zvyqsfev6w107oa1uy6m3uhw8nzv68nbddz6gbw4d59t"
+        apiKey={TINY_MCE_API_KEY}
         init={{
           height: 500,
           plugins: 'lists link image table code help wordcount',

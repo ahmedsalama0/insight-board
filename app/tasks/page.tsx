@@ -28,11 +28,11 @@ import {
 } from '../hooks/useTasksData';
 
 export default function Page() {
-  const [columns, setColumns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
+  const [columns] = useState<Column[]>(BOARD_COLUMNS); //operates on addition deletion of columns.
   // Column | null //in case we are dragging a col or we don't drag anything
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
-  const [formValue, setFormValue] = useState<any>(null);
+  //const [formValue, setFormValue] = useState<any>(null);
 
   const {
     mutate: addTask,
@@ -81,14 +81,6 @@ export default function Page() {
       </>
     );
 
-  // return (
-  //   <ul>
-  //     {data.data?.map((todo) => (
-  //       <li key={todo.id}>{todo.title}</li>
-  //     ))}
-  //   </ul>
-  // );
-
   return (
     <div
       className="
@@ -128,7 +120,7 @@ export default function Page() {
                     return task.columnId === col.id;
                   })
                   .sort((a, b) => a.taskOrder - b.taskOrder)}
-                setFormValue={setFormValue}
+                //setFormValue={setFormValue}
               />
             ))}
           </div>
@@ -140,26 +132,11 @@ export default function Page() {
 
   //should be called after the form data is submitted
   function createTask(task: Task): void {
-    // const newTask: Task = {
-    //   id: generateId(),
-    //   columnId,
-    //   description: `Task ${tasks.length + 1}`,
-    //   status: returnColumnStatus(+columnId),
-    //   createdAt: Date.now().toString(),
-    //   updatedAt: '',
-    //   priority: 'high',
-    // };
     const newTask: Task = task;
     addTask(newTask);
-    //setTasks([...tasks, newTask]);
   }
 
   function updateTask(task: Task) {
-    // const newTasks = tasks.map((task) => {
-    //   if (task.id !== id) return task;
-    //   return { ...task, content };
-    // });
-    // setTasks(newTasks);
     mutateTaskContent(task);
   }
 
@@ -167,32 +144,6 @@ export default function Page() {
     console.log('delete task block');
     mutateDelete(id);
   }
-
-  // function createNewColumn() {
-  //   const columnsLength = columnsId.length;
-  //   const columnToAdd: Column = {
-  //     id: columnsLength < 3 ? columnsLength : generateId(),
-  //     title: `Column ${columns.length + 1}`,
-  //   };
-
-  //   setColumns([...columns, columnToAdd]);
-  // }
-
-  // function deleteColumn(id: Id): void {
-  //   const filteredColumns = columns.filter((col) => col.id !== id);
-  //   //when we delete a column, we also delete tasks bounded to it.
-  //   const newTasks = tasks.filter((t) => t.columnId !== id);
-  //   setColumns(filteredColumns);
-  //   setTasks(newTasks);
-  // }
-
-  // function updateColumnTitle(id: Id, title: string) {
-  //   const newColumns = columns.map((col) => {
-  //     if (col.id !== id) return col;
-  //     return { ...col, title };
-  //   });
-  //   setColumns(newColumns);
-  // }
 
   function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === 'Column') {
@@ -216,19 +167,7 @@ export default function Page() {
     const activeColumnId = active.id;
     const overColumnId = over.id;
 
-    //if the active element is the same as the over element (above itself) => do nothing
-    // [DANGER, ERROR] //we can comment in  the next line because there is nothing is gonna change when this happen
     if (activeColumnId === overColumnId) return;
-
-    // setColumns((columns) => {
-    //   const activeColumnIndex = columns.findIndex(
-    //     (col) => col.id === activeColumnId
-    //   );
-    //   const overColumnIndex = columns.findIndex(
-    //     (col) => col.id === overColumnId
-    //   );
-    //   return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    // });
   }
 
   function onDragOver(event: DragOverEvent) {
@@ -250,28 +189,9 @@ export default function Page() {
     // - dropping a task over another task or over a column
     //I'm dropping a Task over another task
     if (isActiveAtask && isOverATask) {
-      // setTasks((tasks) => {
-
-      //const activeIndex = tasks.findIndex((t) => t.id === activeId);
-      //const overIndex = tasks.findIndex((t) => t.id === overId);
       const activeTask = data?.data.find((task) => task.id === activeId);
       const overTask = data?.data.find((task) => task.id === overId);
       mutateTasksOrder([activeTask, overTask]);
-      /*
-      if (activeTask === null || overTask === null) return;
-
-      mutateTaskStatus({ ...activeTask, taskOrder: overTask.taskOrder });
-      mutateTaskStatus({ ...overTask, taskOrder: activeTask.taskOrder });
-*/
-
-      //we can remove the following if check, since if they're in the same
-      //column, according to the logic is not gonna change
-      //if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
-      //tasks[activeIndex].columnId = tasks[overIndex].columnId;
-      //}
-
-      //   return arrayMove(tasks, activeIndex, overIndex);
-      // });
     }
 
     //I'm dropping a Task over a column
@@ -286,17 +206,6 @@ export default function Page() {
       };
 
       mutateTaskStatus(newTask);
-      //const activeTask = data?.data.find(task => task.id === activeId);
-      //   setTasks((tasks) => {
-      //     const activeIndex = tasks.findIndex((t) => t.id === activeId);
-      //     // tasks[activeIndex].columnId = overId;
-
-      //     const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
-      //     tasks[activeIndex].status = returnColumnStatus(overColumnIndex);
-      //     return arrayMove(tasks, activeIndex, activeIndex); //triggering a re-render of tasks because we're returning a new array
-      //   }
-      // );
     }
   }
 }
@@ -311,8 +220,6 @@ export function returnColumnStatus(columnIndex: number): Status {
       return 'todo';
     case 1:
       return 'in-progress';
-    //case 2:
-    //  return 'done';
     default:
       return 'done';
   }
@@ -324,11 +231,7 @@ export function returnColumnIndex(columnStatus: Status): number {
       return 0;
     case 'in-progress':
       return 1;
-    //case 2:
-    //  return 'done';
     default:
       return 2;
   }
 }
-
-//Done

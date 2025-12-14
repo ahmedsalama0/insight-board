@@ -18,8 +18,8 @@ function ColumnContainer({
   updateTask,
   deleteTask,
   tasks,
-  setFormValue,
-}: {
+}: //setFormValue,
+{
   column: Column;
   //deleteColumn(id: Id): void; //function declaration
   //updateColumnTitle: (id: Id, title: string) => void;
@@ -27,10 +27,8 @@ function ColumnContainer({
   updateTask(task: Task): void;
   deleteTask(id: Id): void;
   tasks: Task[];
-  setFormValue: React.Dispatch<any>;
+  //setFormValue: React.Dispatch<any>;
 }) {
-  const [editMode, setEditMode] = useState(false);
-
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
@@ -48,7 +46,6 @@ function ColumnContainer({
       type: 'Column',
       column,
     },
-    disabled: editMode, //disable dragging and drop in the edit mode
   });
 
   const style = {
@@ -94,9 +91,7 @@ function ColumnContainer({
       <div
         {...attributes}
         {...listeners}
-        onClick={() => {
-          //setEditMode(true);
-        }}
+        onClick={() => {}}
         className="
            bg-main-700
       text-md
@@ -133,39 +128,7 @@ function ColumnContainer({
           >
             {tasks.length}
           </div>
-          {!editMode && column.title}
-          {/* {editMode && (
-            <input
-              className="
-            bg-black focus:border-rose-500 border rounded outline-none px-2"
-              value={column.title}
-              onChange={(e) => {
-                //updateColumnTitle(column.id, e.target.value)
-              }}
-              autoFocus
-              onBlur={() => setEditMode(false)}
-              onKeyDown={(e) => {
-                if (e.key !== 'Enter') return;
-                setEditMode(false);
-              }}
-            />
-          )} */}
         </div>
-        <button
-          onClick={() => {
-            //deleteColumn(column.id);
-          }}
-          className="
-                    stroke-gray-500
-          hover:stroke-white
-          hover:bg-column-700
-          rounded
-          px-1
-          py-2
-        "
-        >
-          <TrashIcon />
-        </button>
       </div>
       {/* Column Task Container */}
       <div
@@ -173,6 +136,7 @@ function ColumnContainer({
         flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto
       "
       >
+        {tasks.length === 0 && 'No tasks Yet!'}
         <SortableContext items={tasksIds}>
           {tasks.map((task, i, arr) => {
             return (
@@ -192,23 +156,9 @@ function ColumnContainer({
      
       "
       >
-        {/* <button
-          className="
-           stroke-white flex gap-1.5 
-      bg-column-700 p-2 rounded opacity-60 hover:opacity-100"
-          onClick={() => {
-            //createTask(column.id);
-          }}
-        >
-          <FormDialog
-            columnId={column.id}
-            setFormValue={setFormValue}
-            createTask={createTask}
-          />
-        </button> */}
         <FormDialog
           columnId={column.id}
-          setFormValue={setFormValue}
+          //setFormValue={setFormValue}
           createTask={createTask}
         />
       </div>

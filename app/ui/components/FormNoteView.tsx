@@ -94,9 +94,6 @@ export default function FormNoteView({ note }: { note: Note }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          {/* <Button type="submit" form="subscription-form">
-            Save
-          </Button> */}
         </DialogActions>
       </Dialog>
     </React.Fragment>
