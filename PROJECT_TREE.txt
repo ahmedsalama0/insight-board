@@ -1,0 +1,65 @@
+Project folder structure for InsightBoard (generated)
+
+- db.json
+- eslint.config.mjs
+- next-env.d.ts
+- next.config.ts
+- package.json
+- postcss.config.mjs
+- README.md
+- tsconfig.json
+- app/
+  - globals.css
+  - layout.tsx
+  - page.tsx
+  - dashboard/
+    - page.tsx
+  - global/
+    - constants.ts
+  - hooks/
+    - useAuthGuard.ts
+    - useNotesData.ts
+    - useTasksData.ts
+  - login/
+    - page.tsx
+  - notes/
+    - page.tsx
+    - models/
+      - types.model.tsx
+  - schemas/
+    - loginSchema.ts
+  - services/
+    - auth.ts
+  - tasks/
+    - page.tsx
+    - data/
+      - data.ts
+    - models/
+      - types.model.tsx
+  - ui/
+    - components/
+      - ColumnContainer.tsx
+      - EditorClient.tsx
+      - FormDialog.tsx
+      - FormDialogEdit.tsx
+      - FormInputSelect.tsx
+      - FormNoteEdit.tsx
+      - FormNoteView.tsx
+      - NoteCard.tsx
+      - NotesPageBody.tsx
+      - NotesPageHeader.tsx
+      - TaskCard.tsx
+    - icons/
+      - PenIcon.tsx
+      - PlusIcon.tsx
+      - TrashIcon.tsx
+      - ViewIcon.tsx
+    - utilities/
+      - helpers.ts
+      - inputDebounce.ts
+- providers/
+  - get-query-client.ts
+  - QueryProvider.tsx
+- public/
+
+Generated on 2025-12-14

@@ -1,36 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InsightBoard – Frontend Engineering Challenge
 
-## Getting Started
+InsightBoard demonstrates modern frontend engineering practices using **Next.js App Router**, **TypeScript**, **TanStack Query**, and **Material UI**, with a focus on clean architecture, server-state management, and scalability.
 
-First, run the development server:
+---
+
+## 🧭 Overview
+
+InsightBoard is a productivity application that includes:
+
+- A **tasks feature similar to Trello**, using a Kanban-style board
+- A **notes feature similar to Evernote**, supporting autosave via debounced mutations
+
+The goal of the project is to showcase frontend architecture, state management, and interaction with a mock backend.
+
+---
+
+## 🚀 Tech Stack
+
+- Next.js (App Router)
+
+- TypeScript
+
+- TanStack Query (React Query)
+
+- Material UI (MUI)
+
+- React Hook Form + Zod
+
+- JSON Server (Mock API)
+
+- Client-side Authentication (Mocked)
+
+---
+
+## 📦 Setup Instructions
+
+### 1️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 2️⃣ Configure environment constants
+
+Update the following file:
+
+📁 `app/global/constants.ts`
+
+Replace:
+
+- `API_KEY`
+- `BASE_URL`
+
+with your own values.
+
+---
+
+### 3️⃣ Run the JSON Server (Mock Backend)
+
+```bash
+npm run serve-json
+```
+
+This starts a mock REST API for:
+
+- Tasks
+- Notes
+
+---
+
+### 4️⃣ Run the Next.js development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+### 🔐 Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Email and password login
+- Fake authentication using a mock API
+- Token stored in `localStorage`
+- Client-side protected routes using route guards
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### ✅ Tasks Module
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Full CRUD operations (Create, Read, Update, Delete)
+- Kanban-style board with columns:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  - Todo
+  - In Progress
+  - Done
+
+- Optimistic updates implemented using **TanStack Query**
+- Proper handling of:
+
+  - Loading states
+  - Empty states
+  - Error states with retry support
+
+---
+
+### 📝 Notes Module
+
+- Notes list page
+- View single note
+- Create and edit notes
+- Rich text or markdown editor
+- Autosave functionality using debounced mutations
+
+---
+
+## 🗂️ Project Folder Structure
+
+```
+src/
+├── app/                # Next.js App Router pages & layouts
+│   ├── layout.tsx
+│   ├── globals.css
+│   ├── login/
+│   │   └── page.tsx
+│   ├── tasks/
+│   │   └── page.tsx
+│   ├── notes/
+│   │   └── page.tsx
+│
+├── global/             # Global configuration & constants
+│   └── constants.ts
+│
+├── hooks/              # Custom React hooks
+│   ├── useAuthGuard.ts
+│   ├── useTasksData.ts
+│   └── useNotesData.ts
+│
+├── services/           # API & data access layer
+│   └── auth.ts
+│
+├── schemas/            # Zod validation schemas
+│   └── loginSchema.ts
+│
+├── models/             # Shared TypeScript types
+│   └── types.model.ts
+│
+├── ui/                 # Reusable UI components & utilities
+│   ├── components/
+│   ├── icons/
+│   └── utilities/
+│
+├── providers/          # App-level providers (React Query)
+│   └── QueryProvider.tsx
+│
+└── data/               # Mock / static data helpers
+    └── data.ts
+```
+
+---
+
+## 🧠 Design Decisions
+
+- **Next.js App Router** was used to align with modern Next.js standards.
+- **TanStack Query** manages all server state, caching, and optimistic updates.
+- Authentication is intentionally mocked to keep the project frontend-focused.
+- **Zod schemas** provide type-safe and consistent form validation.
+- JSON Server allows fast iteration without a real backend.
+
+---
+
+## ⚠️ Known Limitations
+
+- The application can be further optimized for **Next.js-specific patterns**.
+- Server-state could be stored in a more centralized manner to be shared across the entire application.
+- The application needs improved **UI/UX** to deliver a better overall user experience.
+- Transitions and animations in the **Tasks module** are not smooth and can be enhanced.
+
+---
+
+## 🔮 Future Improvements
+
+- Improve Next.js performance optimizations.
+- Centralize server-state management for better scalability.
+- Enhance UI/UX and animations across the application.
+- Implement sorting and search.
+- Integrate real authentication (JWT / OAuth).
