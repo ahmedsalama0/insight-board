@@ -1,6 +1,6 @@
 # InsightBoard – Frontend Engineering Challenge
 
-InsightBoard demonstrates modern frontend engineering practices using **Next.js App Router**, **TypeScript**, **TanStack Query**, and **Material UI**, with a focus on clean architecture, server-state management, and scalability.
+InsightBoard demonstrates modern frontend engineering practices using **Next.js App Router**, **TypeScript**, **TanStack Query**, **dnd kit** and **Material UI**, with a focus on clean architecture, server-state management, and scalability.
 
 ---
 
@@ -22,6 +22,8 @@ The goal of the project is to showcase frontend architecture, state management, 
 - TypeScript
 
 - TanStack Query (React Query)
+
+- dnd kit
 
 - Material UI (MUI)
 
